@@ -1,0 +1,18 @@
+\ExplSyntaxOn
+
+%% \TestHolidayName { <year> } { <month> } { <day> }
+\NewDocumentCommand \TestHolidayName { m m m }
+  {
+    \tl_set:Nf \l_tmpa_tl { \jaholidayname { #1 } { #2 } { #3 } }
+    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+  }
+
+%% \TestDayOfWeek { <year> } { <month> } { <day> }
+\NewDocumentCommand \TestDayOfWeek { m m m }
+  {
+    \tl_set:Nf \l_tmpa_tl { \jadayofweek { #1 } { #2 } { #3 } }
+    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+  }
+
+\ExplSyntaxOff
+% vim: ft=expl3:

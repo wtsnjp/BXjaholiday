@@ -1,0 +1,45 @@
+\documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
+
+% packages
+\usepackage{expl3}
+\usepackage{bxjaholiday}
+
+% support files
+\input{regression-test.tex}
+\input{bxjh-list.tex}
+
+% settings
+\pagestyle{empty}
+\parindent=0pt
+
+\begin{document}
+
+\START
+
+\TEST{2015}{%
+  \HolidaysList{2015}%
+}
+
+\TEST{2016}{%
+  \HolidaysList{2016}%
+}
+
+\TEST{2017}{%
+  \HolidaysList{2017}%
+}
+
+\TEST{2018}{%
+  \HolidaysList{2018}%
+}
+
+\TEST{2019}{%
+  \HolidaysList{2019}%
+}
+
+\TEST{2020}{%
+  \HolidaysList{2020}%
+}
+
+\END
+
+\end{document}

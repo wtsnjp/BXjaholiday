@@ -1,0 +1,811 @@
+%%
+%% This is file 'bxjaholiday.sty'.
+%%
+%% Copyright (c) 2018 Takuto ASAKURA (wtsnjp)
+%%   GitHub:   https://github.com/wtsnjp
+%%   Twitter:  @wtsnjp
+%%
+%% This package is distributed under the MIT License.
+%%
+
+% Note: This file is encoded entirely in us-ascii.
+
+% -------------------------------------------------- declarations
+
+\RequirePackage{expl3}
+\RequirePackage{xparse}
+\ProvidesExplPackage {bxjaholiday} {2018/11/25} {0.1.0}
+  {Support for Japanese holidays}
+
+% -------------------------------------------------- utilities
+
+% LaTeX2e stuff
+%% \__bxjh_only_preamble:N \CS
+\cs_new_eq:Nc \__bxjh_only_preamble:N { @onlypreamble }
+
+% shorthands
+%% \__bxjh_int_compare_and:nnT { <intexpr1> } { <intexpr2> } { <true code> }
+\cs_new:Npn \__bxjh_int_compare_and:nnT #1#2#3
+  {
+    \bool_lazy_and:nnT
+      { \int_compare_p:n { #1 } }
+      { \int_compare_p:n { #2 } }
+      { #3 }
+  }
+
+%% \__bxjh_int_compare_and:nnTF { <intexpr1> } { <intexpr2> }
+%%   { <true code> } { <false code> }
+\cs_new:Npn \__bxjh_int_compare_and:nnTF #1#2#3#4
+  {
+    \bool_lazy_and:nnTF
+      { \int_compare_p:n { #1 } }
+      { \int_compare_p:n { #2 } }
+      { #3 } { #4 }
+  }
+
+% -------------------------------------------------- messages
+
+\msg_new:nnn { bxjaholiday } { unknown-engine }
+  {
+    Unknown~TeX~engine; \\
+    loading~bxjaholiday~will~abort!
+  }
+
+% -------------------------------------------------- constants
+
+\int_const:Nn \c_bxjh_monday_int    { 0 }
+\int_const:Nn \c_bxjh_tuesday_int   { 1 }
+\int_const:Nn \c_bxjh_wednesday_int { 2 }
+\int_const:Nn \c_bxjh_thursday_int  { 3 }
+\int_const:Nn \c_bxjh_friday_int    { 4 }
+\int_const:Nn \c_bxjh_saturday_int  { 5 }
+\int_const:Nn \c_bxjh_sunday_int    { 6 }
+
+% -------------------------------------------------- Japanese string maker
+
+% scratch CS
+\cs_new:Npn \__bxjh_next:n #1 {}
+
+%% \__bxjh_add_jchar:Nnnn <tl-var> { <hex-dump-of-utf8-bytes> }
+%%   { <hex-dump-of-unicode-point> } { <hex-dump-of-JIS-bytes> }
+\__bxjh_only_preamble:N \__bxjh_add_jchar:Nnnn
+\cs_new:Npn \__bxjh_add_jchar:Nnnn #1#2#3#4
+  {
+    \group_begin:
+      \cs_set:Npn \__bxjh_next:n ##1
+        {
+          \tl_gset:Nx #1 { \exp_not:o { #1 } ##1 }
+        }
+      \__bxjh_add_jchar_dec:nnn { #2 } { #3 } { #4 }
+    \group_end:
+  }
+
+% engine-dependent parts
+\str_case_e:nnF { \c_sys_engine_str }
+  {
+    { pdftex }
+    {
+      \cs_new:Npn \__bxjh_add_jchar_dec:nnn #1#2#3
+        {
+          \__bxjh_add_jchar_dec_helper:n { #1 }
+        }
+      \cs_new:Npn \__bxjh_add_jchar_dec_helper:n #1
+        {
+          % #1 should have three tl items
+          \tl_map_inline:nn { #1 }
+            {
+              \tl_set_rescan:Nnx \l_tmpa_tl
+                { \char_set_catcode_active:n { "##1 } }
+                { \char_generate:nn { "##1 } { 12 } }
+              \__bxjh_next:n { \exp_not:o { \l_tmpa_tl } }
+            }
+        }
+    }
+
+    { ptex }
+    {
+      \cs_new:Npn \__bxjh_add_jchar_dec:nnn #1#2#3
+        {
+          \ptex_kansujichar:D \c_one_int = \ptex_jis:D "#3 \scan_stop:
+          \__bxjh_next:n { \ptex_kansuji:D \c_one_int }
+        }
+    }
+
+    { uptex }
+    {
+      \cs_new:Npn \__bxjh_add_jchar_dec:nnn #1#2#3
+        {
+          \ptex_kansujichar:D \c_one_int = \ptex_jis:D "#3 \scan_stop:
+          \__bxjh_next:n { \ptex_kansuji:D \c_one_int }
+        }
+    }
+
+    { xetex }
+    {
+      \cs_new:Npn \__bxjh_add_jchar_dec:nnn #1#2#3
+        {
+         \__bxjh_next:n { \char_generate:nn { "#2 } { 11 } }
+        }
+    }
+
+    { luatex }
+    {
+      \cs_new:Npn \__bxjh_add_jchar_dec:nnn #1#2#3
+        {
+          \__bxjh_next:n { \char_generate:nn { "#2 } { 11 } }
+        }
+    }
+  }
+  {
+    % engines which expl3 does not support
+    \msg_warning:nn { bxjaholiday } { unknown-engine }
+    \file_input_stop:
+  }
+
+% -------------------------------------------------- Japanese words
+
+% youbi
+\tl_new:N \g_bxjh_getsu_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_getsu_tl { {E6}{9C}{88} } { 6708 } { 376E }
+
+\tl_new:N \g_bxjh_ka_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_ka_tl { {E7}{81}{AB} } { 706B } { 3250 }
+
+\tl_new:N \g_bxjh_sui_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_sui_tl { {E6}{B0}{B4} } { 6C34 } { 3F65 }
+
+\tl_new:N \g_bxjh_moku_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_moku_tl { {E6}{9C}{A8} } { 6728 } { 4C5A }
+
+\tl_new:N \g_bxjh_kin_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_kin_tl { {E9}{87}{91} } { 91D1 } { 3662 }
+
+\tl_new:N \g_bxjh_do_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_do_tl { {E5}{9C}{9F} } { 571F } { 455A }
+
+\tl_new:N \g_bxjh_nichi_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_nichi_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+% common holidays
+\tl_new:N \g_bxjh_ganjitsu_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_ganjitsu_tl { {E5}{85}{83} } { 5143 } { 3835 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_ganjitsu_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_seijin_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_seijin_tl { {E6}{88}{90} } { 6210 } { 402E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_seijin_tl { {E4}{BA}{BA} } { 4EBA } { 3F4D }
+\__bxjh_add_jchar:Nnnn \g_bxjh_seijin_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_seijin_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_kenkoku_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenkoku_tl { {E5}{BB}{BA} } { 5EFA } { 377A }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenkoku_tl { {E5}{9B}{BD} } { 56FD } { 3971 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenkoku_tl { {E8}{A8}{98} } { 8A18 } { 352D }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenkoku_tl { {E5}{BF}{B5} } { 5FF5 } { 4730 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenkoku_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenkoku_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_tennou_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_tennou_tl { {E5}{A4}{A9} } { 5929 } { 4537 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_tennou_tl { {E7}{9A}{87} } { 7687 } { 3944 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_tennou_tl { {E8}{AA}{95} } { 8A95 } { 4342 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_tennou_tl { {E7}{94}{9F} } { 751F } { 4038 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_tennou_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_shunbun_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_shunbun_tl { {E6}{98}{A5} } { 6625 } { 3D55 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_shunbun_tl { {E5}{88}{86} } { 5206 } { 4A2C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_shunbun_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_shunbun_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_showa_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_tl { {E6}{98}{AD} } { 662D } { 3E3C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_tl { {E5}{92}{8C} } { 548C } { 4F42 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_midori_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_midori_tl { {E3}{81}{BF} } { 307F } { 245F }
+\__bxjh_add_jchar:Nnnn \g_bxjh_midori_tl { {E3}{81}{A9} } { 3069 } { 2449 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_midori_tl { {E3}{82}{8A} } { 308A } { 246A }
+\__bxjh_add_jchar:Nnnn \g_bxjh_midori_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_midori_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_kenpou_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenpou_tl { {E6}{86}{B2} } { 61B2 } { 377B }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenpou_tl { {E6}{B3}{95} } { 6CD5 } { 4B21 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenpou_tl { {E8}{A8}{98} } { 8A18 } { 352D }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenpou_tl { {E5}{BF}{B5} } { 5FF5 } { 4730 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kenpou_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_kokumin_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_kokumin_tl { {E5}{9B}{BD} } { 56FD } { 3971 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kokumin_tl { {E6}{B0}{91} } { 6C11 } { 4C31 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kokumin_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kokumin_tl { {E4}{BC}{91} } { 4F11 } { 3559 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kokumin_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_kodomo_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_kodomo_tl { {E3}{81}{93} } { 3053 } { 2433 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kodomo_tl { {E3}{81}{A9} } { 3069 } { 2449 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kodomo_tl { {E3}{82}{82} } { 3082 } { 2462 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kodomo_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kodomo_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_furikae_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_furikae_tl { {E6}{8C}{AF} } { 632F } { 3F36 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_furikae_tl { {E6}{9B}{BF} } { 66FF } { 4258 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_furikae_tl { {E4}{BC}{91} } { 4F11 } { 3559 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_furikae_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_umi_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_umi_tl { {E6}{B5}{B7} } { 6D77 } { 3324 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_umi_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_umi_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_yama_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_yama_tl { {E5}{B1}{B1} } { 5C71 } { 3B33 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_yama_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_yama_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_shubun_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_shubun_tl { {E7}{A7}{8B} } { 79CB } { 3D29 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_shubun_tl { {E5}{88}{86} } { 5206 } { 4A2C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_shubun_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_shubun_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_keirou_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_keirou_tl { {E6}{95}{AC} } { 656C } { 3749 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_keirou_tl { {E8}{80}{81} } { 8001 } { 4F37 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_keirou_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_keirou_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_sport_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{82}{B9} } { 30B9 } { 2539 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{83}{9D} } { 30DD } { 255D }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{83}{BC} } { 30FC } { 213C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{83}{84} } { 30C4 } { 2544 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_taiiku_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_taiiku_tl { {E4}{BD}{93} } { 4F53 } { 424E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_taiiku_tl { {E8}{82}{B2} } { 80B2 } { 3069 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_taiiku_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_taiiku_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_bunka_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_bunka_tl { {E6}{96}{87} } { 6587 } { 4A38 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_bunka_tl { {E5}{8C}{96} } { 5316 } { 323D }
+\__bxjh_add_jchar:Nnnn \g_bxjh_bunka_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_bunka_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+\tl_new:N \g_bxjh_kinrou_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_kinrou_tl { {E5}{8B}{A4} } { 52E4 } { 3650 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kinrou_tl { {E5}{8A}{B4} } { 52B4 } { 4F2B }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kinrou_tl { {E6}{84}{9F} } { 611F } { 3436 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kinrou_tl { {E8}{AC}{9D} } { 8B1D } { 3C55 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kinrou_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_kinrou_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+
+% special holidays (mainly Emperor related)
+\tl_new:N \g_bxjh_showa_taisou_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E6}{98}{AD} } { 662D } { 3E3C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E5}{92}{8C} } { 548C } { 4F42 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E5}{A4}{A9} } { 5929 } { 4537 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E7}{9A}{87} } { 7687 } { 3944 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E5}{A4}{A7} } { 5927 } { 4267 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E5}{96}{AA} } { 55AA } { 4153 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_showa_taisou_tl { {E7}{A4}{BC} } { 793C } { 4E69 }
+
+\tl_new:N \g_bxjh_akihito_kekkon_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E7}{9A}{87} } { 7687 } { 3944 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E5}{A4}{AA} } { 592A } { 4240 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E5}{AD}{90} } { 5B50 } { 3B52 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E6}{98}{8E} } { 660E } { 4C40 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E4}{BB}{81} } { 4EC1 } { 3F4E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E8}{A6}{AA} } { 89AA } { 3F46 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E7}{8E}{8B} } { 738B } { 3226 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E7}{B5}{90} } { 7D50 } { 376B }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E5}{A9}{9A} } { 5A5A } { 3A27 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_akihito_kekkon_tl { {E5}{84}{80} } { 5100 } { 3537 }
+
+\tl_new:N \g_bxjh_naruhito_kekkon_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E7}{9A}{87} } { 7687 } { 3944 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E5}{A4}{AA} } { 592A } { 4240 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E5}{AD}{90} } { 5B50 } { 3B52 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E5}{BE}{B3} } { 5FB3 } { 4641 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E4}{BB}{81} } { 4EC1 } { 3F4E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E8}{A6}{AA} } { 89AA } { 3F46 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E7}{8E}{8B} } { 738B } { 3226 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E7}{B5}{90} } { 7D50 } { 376B }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E5}{A9}{9A} } { 5A5A } { 3A27 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E5}{84}{80} } { 5100 } { 3537 }
+
+\tl_new:N \g_bxjh_sokui_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E5}{8D}{B3} } { 5373 } { 4228 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E4}{BD}{8D} } { 4F4D } { 304C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E7}{A4}{BC} } { 793C } { 4E69 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E6}{AD}{A3} } { 6B63 } { 4035 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E6}{AE}{BF} } { 6BBF } { 4542 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E5}{84}{80} } { 5100 } { 3537 }
+
+% -------------------------------------------------- support functions
+
+% -------------------------------------------------- day of week
+
+%% \bxjh_day_of_week_name:nnn { <year> } { <month> } { <day> }
+%% \bxjh_day_of_week:nnn { <year> } { <month> } { <day> }
+% The calculation is based on Zeller's congruence:
+%
+%   W = y + floor ( y / 4 ) + floor ( h / 4 ) + ( 5 * h )
+%         + floor ( ( 13 * ( m + 1 ) ) / 5 ) + d
+%
+% where
+%
+%   h = floor ( #1 / 100 ) ,
+%   y = \int_mod:nn { #1 } { 100 } ,
+%   m = #2 ,
+%   d = #3 .
+%
+% Note that January and Febuary needs to be treated as 13rd and 14th
+% month of the former year respectively.
+\cs_new_protected:Npn \bxjh_day_of_week_name:nnn #1#2#3
+  {
+    \int_case:nn { \bxjh_day_of_week:nnn { #1 } { #2 } { #3 } }
+      {
+        { \c_bxjh_monday_int } { \g_bxjh_getsu_tl }
+        { \c_bxjh_tuesday_int } { \g_bxjh_ka_tl }
+        { \c_bxjh_wednesday_int } { \g_bxjh_sui_tl }
+        { \c_bxjh_thursday_int } { \g_bxjh_moku_tl }
+        { \c_bxjh_friday_int } { \g_bxjh_kin_tl }
+        { \c_bxjh_saturday_int } { \g_bxjh_do_tl }
+        { \c_bxjh_sunday_int } { \g_bxjh_nichi_tl }
+      }
+  }
+
+\cs_new_protected:Npn \bxjh_day_of_week:nnn #1#2#3
+  {
+    \int_compare:nNnTF { #2 } < { 3 }
+      {
+        \__bxjh_zeller:nnn { #1 - 1 } { #2 + 12 } { #3 }
+      }
+      {
+        \__bxjh_zeller:nnn { #1 } { #2 } { #3 }
+      }
+  }
+
+\cs_new:Npn \__bxjh_zeller:nnn #1#2#3
+  {
+    \int_mod:nn
+      {
+        \int_mod:nn { #1 } { 100 }
+        + \int_div_truncate:nn { \int_mod:nn { #1 } { 100 } } { 4 }
+        + \int_div_truncate:nn { \int_div_truncate:nn { #1 } { 100 } } { 4 }
+        + ( 5 * \int_div_truncate:nn { #1 } { 100 } )
+        + \int_div_truncate:nn { ( 13 * ( #2 + 1 ) ) } { 5 }
+        + #3 + 5
+      }
+      { 7 }
+  }
+
+% -------------------------------------------------- holidays
+
+%% \__bxjh_va_formula:nn { <magic> } { <year> }
+\cs_new:Npn \__bxjh_va_formula:nn #1#2
+  {
+    \fp_eval:n {
+      floor (
+        #1 + 0.242194 * ( #2 - 1980 ) - floor ( ( #2 - 1980 ) / 4 )
+      )
+    }
+  }
+
+%% \__bxjh_vernal_equinox:n { <year> }
+\cs_new:Npn \__bxjh_vernal_equinox:n #1
+  {
+    \int_compare:nNnTF { #1 } < { 1948 }
+      {
+        99  % before the Act on National Holidays
+      }
+      {
+        \int_compare:nNnTF { #1 } < { 1980 }
+          {
+            \__bxjh_va_formula:nn { 20.8357 } { #1 }
+          }
+          {
+            \int_compare:nNnTF { #1 } < { 2100 }
+              {
+                \__bxjh_va_formula:nn { 20.8431 } { #1 }
+              }
+              {
+              \int_compare:nNnTF { #1 } < { 2151 }
+                {
+                  \__bxjh_va_formula:nn { 20.8510 } { #1 }
+                }
+                {
+                  99  % unknown because no calculation formula
+                }
+              }
+          }
+      }
+  }
+
+%% \__bxjh_autumn_equinox:n { <year> }
+\cs_new:Npn \__bxjh_autumn_equinox:n #1
+  {
+    \int_compare:nNnTF { #1 } < { 1948 }
+      {
+        99 % before the Act on National Holidays
+      }
+      {
+        \int_compare:nNnTF { #1 } < { 1980 }
+          {
+            \__bxjh_va_formula:nn { 23.2588 } { #1 }
+          }
+          {
+            \int_compare:nNnTF { #1 } < { 2100 }
+              {
+                \__bxjh_va_formula:nn { 23.2488 } { #1 }
+              }
+              {
+              \int_compare:nNnTF { #1 } < { 2151 }
+                {
+                  \__bxjh_va_formula:nn { 24.2488 } { #1 }
+                }
+                {
+                  99 % unknown because no calculation formula
+                }
+              }
+          }
+      }
+  }
+
+%% \bxjh_holiday_name:nnn { <year> } { <month> } { <day> }
+\cs_new_protected:Npn \bxjh_holiday_name:nnn #1#2#3
+  {
+    \exp_args:Nf \__bxjh_holiday_name_wrapper:nnnn
+      { \__bxjh_holiday_name_naive:nnn { #1 } { #2 } { #3 } }
+      { #1 } { #2 } { #3 }
+  }
+
+%% \__bxjh_holiday_name_wrapper:nnnn { <naive holiday name> }
+%%   { <year> } { <month> } { <day> }
+\cs_set:Npn \__bxjh_holiday_name_wrapper:nnnn #1#2#3#4
+  {
+    \tl_if_empty:nTF { #1 }
+      {
+        \__bxjh_int_compare_and:nnT
+          { #2 * 10000 + #3 * 100 + #4 > 19730411 }
+          {
+            \bxjh_day_of_week:nnn { #2 } { #3 } { #4 }
+            = \c_bxjh_monday_int
+          }
+          {
+            \bxjh_if_holiday:nnnT
+              { #2 } { #3 } { #4 - 1 } % no chance to go prev month
+              { \g_bxjh_furikae_tl }
+          }
+      }
+      { #1 }
+  }
+
+%% \__bxjh_holiday_name_naive:nnn { <year> } { <month> } { <day> }
+\cs_new:Npn \__bxjh_holiday_name_naive:nnn #1#2#3
+  {
+    \int_compare:nNnTF { #1 * 10000 + #2 * 100 + #3 } < { 19480720 }
+      {
+        % empty because before the Act on National Holidays
+      }
+      {
+        \int_case:nn { #2 }
+          {
+            { 1 } % January
+            {
+              \int_compare:nNnTF { #3 } = { 1 }
+                { \g_bxjh_ganjitsu_tl }
+                {
+                  \int_compare:nNnTF { #1 } > { 1999 }
+                    {
+                      \__bxjh_int_compare_and:nnT % second Monday
+                        { \int_div_truncate:nn { #3 - 1 } { 7 } = 1 }
+                        {
+                          \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                          = \c_bxjh_monday_int
+                        }
+                        { \g_bxjh_seijin_tl }
+                    }
+                    {
+                      \int_compare:nNnT { #3 } = { 15 }
+                        { \g_bxjh_seijin_tl }
+                    }
+                }
+            }
+
+            { 2 } % Febuary
+            {
+              \__bxjh_int_compare_and:nnTF { #3 = 11 } { #1 > 1966 }
+                { \g_bxjh_kenkoku_tl }
+                {
+                  \__bxjh_int_compare_and:nnTF { #3 = 23 } { #1 > 2019 }
+                    { \g_bxjh_tennou_tl } % the "next" era (2020-)
+                    {
+                      \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19890224 }
+                        { \g_bxjh_showa_taisou_tl }
+                    }
+                }
+            }
+
+            { 3 } % March
+            {
+              \int_compare:nNnT { #3 } = { \__bxjh_vernal_equinox:n { #1 } }
+                { \g_bxjh_shunbun_tl }
+            }
+
+            { 4 } % April
+            {
+              \int_compare:nNnTF { #3 } = { 29 }
+                {
+                  \int_compare:nNnTF { #1 } > { 2006 }
+                    { \g_bxjh_showa_tl }
+                    {
+                      \int_compare:nNnTF { #1 } > { 1988 }
+                        { \g_bxjh_midori_tl }
+                        { \g_bxjh_tennou_tl } % the Showa period
+                    }
+                }
+                {
+                  \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19590410 }
+                    { \g_bxjh_akihito_kekkon_tl }
+                }
+            }
+
+            { 5 } % May
+            {
+              \int_compare:nNnTF { #3 } = { 3 }
+                { \g_bxjh_kenpou_tl }
+                {
+                  \int_compare:nNnTF { #3 } = { 4 }
+                    {
+                      \int_compare:nNnTF { #1 } > { 2006 }
+                        { \g_bxjh_midori_tl }
+                        {
+                          \int_compare:nNnT { #1 } > { 1985 }
+                            {
+                              \int_case:nnF % if later than Tuesday (Tue. - Sat.)
+                                { \bxjh_day_of_week:nnn { #1 } { #2 } { #3 } }
+                                {
+                                  { \c_bxjh_monday_int } {} % substitute for Constitution Day
+                                  { \c_bxjh_sunday_int } {} % just a "normal" Sunday
+                                }
+                                { \g_bxjh_kokumin_tl }
+                            }
+                        }
+                    }
+                    {
+                      \int_compare:nNnTF { #3 } = { 5 }
+                        { \g_bxjh_kodomo_tl }
+                        {
+                          \int_compare:nNnT { #3 } = { 6 }
+                            {
+                              \int_compare:nNnT { #1 } > { 2006 }
+                                {
+                                  \int_case:nn
+                                    { \bxjh_day_of_week:nnn { #1 } { #2 } { #3 } }
+                                    {
+                                      { \c_bxjh_tuesday_int } { \g_bxjh_furikae_tl }
+                                      { \c_bxjh_wednesday_int } { \g_bxjh_furikae_tl }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            { 6 } % June
+            {
+              \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19930609 }
+                { \g_bxjh_naruhito_kekkon_tl }
+            }
+
+            { 7 } % July
+            {
+              \int_compare:nNnTF { #1 } > { 2020 }
+                {
+                  \__bxjh_int_compare_and:nnT % third Monday
+                    { \int_div_truncate:nn { #3 - 1 } { 7 } = 2 }
+                    {
+                      \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                      = \c_bxjh_monday_int
+                    }
+                    { \g_bxjh_umi_tl }
+                }
+                {
+                  \int_compare:nNnTF { #1 } = { 2020 }
+                    {
+                      % 2020 Tokyo Olympic year: special case
+                      \int_compare:nNnTF { #3 } = { 23 }
+                        { \g_bxjh_umi_tl }
+                        {
+                          \int_compare:nNnT { #3 } = { 24 }
+                            { \g_bxjh_sport_tl }
+                        }
+                    }
+                    {
+                      \int_compare:nNnTF { #1 } > { 2002 }
+                        {
+                          \__bxjh_int_compare_and:nnT % third Monday
+                            { \int_div_truncate:nn { #3 - 1 } { 7 } = 2 }
+                            {
+                              \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                              = \c_bxjh_monday_int
+                            }
+                            { \g_bxjh_umi_tl }
+                        }
+                        {
+                          \__bxjh_int_compare_and:nnT { #1 > 1995 } { #3 = 20 }
+                            { \g_bxjh_umi_tl }
+                        }
+                    }
+                }
+            }
+
+            { 8 } % August
+            {
+              \int_compare:nNnTF { #1 } > { 2020 }
+                {
+                  \int_compare:nNnT { #3 } = { 11 }
+                    { \g_bxjh_yama_tl }
+                }
+                {
+                  \int_compare:nNnTF { #1 } = { 2020 }
+                    {
+                      % 2020 Tokyo Olympic year: special case
+                      \int_compare:nNnT { #3 } = { 10 }
+                        { \g_bxjh_yama_tl }
+                    }
+                    {
+                      \__bxjh_int_compare_and:nnT { #1 > 2015 } { #3 = 11 }
+                        { \g_bxjh_yama_tl }
+                    }
+                }
+            }
+
+            { 9 } % September
+            {
+              \int_compare:nNnTF { #3 } = { \__bxjh_autumn_equinox:n { #1 } }
+                { \g_bxjh_shubun_tl }
+                {
+                  \int_compare:nNnTF { #1 } > { 2002 }
+                    {
+                      \__bxjh_int_compare_and:nnTF % third Monday
+                        { \int_div_truncate:nn { #3 - 1 } { 7 } = 2 }
+                        {
+                          \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                          = \c_bxjh_monday_int
+                        }
+                        { \g_bxjh_keirou_tl }
+                        {
+                          \__bxjh_int_compare_and:nnT
+                            {
+                              \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                              = \c_bxjh_tuesday_int
+                            }
+                            { #3 = \__bxjh_autumn_equinox:n { #1 } - 1 }
+                            { \g_bxjh_kokumin_tl }
+                        }
+                    }
+                    {
+                      \__bxjh_int_compare_and:nnT { #1 > 1965 } { #3 = 15 }
+                        { \g_bxjh_keirou_tl }
+                    }
+                }
+            }
+
+            { 10 } % October
+            {
+              \int_compare:nNnTF { #1 } > { 2020 }
+                {
+                  \__bxjh_int_compare_and:nnT % second Monday
+                    { \int_div_truncate:nn { #3 - 1 } { 7 } = 1 }
+                    {
+                      \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                      = \c_bxjh_monday_int
+                    }
+                    { \g_bxjh_sport_tl }
+                }
+                {
+                  \int_compare:nNnTF { #1 } = { 2020 }
+                    {
+                      % pass because of 2020 Tokyo Olympic
+                    }
+                    {
+                      \int_compare:nNnTF { #1 } > { 1999 }
+                        {
+                          \__bxjh_int_compare_and:nnT % second Monday
+                            { \int_div_truncate:nn { #3 - 1 } { 7 } = 1 }
+                            {
+                              \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                              = \c_bxjh_monday_int
+                            }
+                            { \g_bxjh_taiiku_tl }
+                        }
+                        {
+                          \__bxjh_int_compare_and:nnT
+                            { #1 > 1965 } { #3 = 10 }
+                            { \g_bxjh_taiiku_tl }
+                        }
+                    }
+                }
+            }
+
+            { 11 } % November
+            {
+              \int_compare:nNnTF { #3 } = { 3 }
+                { \g_bxjh_bunka_tl }
+                {
+                  \int_compare:nNnTF { #3 } = { 23 }
+                    { \g_bxjh_kinrou_tl }
+                    {
+                      \int_compare:nNnT
+                        { #1 * 10000 + #2 * 100 + #3 } = { 19901112 }
+                        { \g_bxjh_sokui_tl }
+                    }
+                }
+            }
+
+            { 12 } % December
+            {
+              \int_compare:nNnT { #3 } = { 23 }
+                {
+                  \__bxjh_int_compare_and:nnT
+                    { #1 > 1988 } { #1 < 2019 }
+                    { \g_bxjh_tennou_tl } % the Heisei period
+                }
+            }
+          }
+      }
+  }
+
+%% \bxjh_if_holiday:nnn(TF)
+\prg_new_protected_conditional:Npnn \bxjh_if_holiday:nnn #1#2#3 { T, F, TF }
+  {
+    \exp_args:Nf \tl_if_empty:nTF
+      { \bxjh_holiday_name:nnn { #1 } { #2 } { #3 } }
+      { \prg_return_false: }
+      { \prg_return_true: }
+  }
+
+% -------------------------------------------------- LaTeX2e interface
+
+%% \jaholidayname { <year> } { <month> } { <day> }
+\NewDocumentCommand \jaholidayname { m m m }
+  {
+    % TODO: check types of #1, #2, and #3
+    % TODO: check the value of #1, #2, and #3 is in the range
+    \bxjh_holiday_name:nnn { #1 } { #2 } { #3 }
+  }
+
+%% \jadayofweek { <year> } { <month> } { <day> }
+\NewDocumentCommand \jadayofweek { m m m }
+  {
+    % TODO: check types of #1, #2, and #3
+    \bxjh_day_of_week_name:nnn { #1 } { #2 } { #3 }
+  }
+
+%% \IfJaHoliday(TF) { <year> } { <month> } { <day> }
+%%   ( { <true code> } ) ( { <false code> } )
+\cs_new_eq:NN \IfJaHolidayF \bxjh_if_holiday:nnnF
+\cs_new_eq:NN \IfJaHolidayT \bxjh_if_holiday:nnnT
+\cs_new_eq:NN \IfJaHolidayTF \bxjh_if_holiday:nnnTF
+
+% vim: ft=expl3 nospell:
+%% EOF

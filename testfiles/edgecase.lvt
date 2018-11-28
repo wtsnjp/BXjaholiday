@@ -1,0 +1,170 @@
+% Note: This file must be encoded in UTF-8
+\documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
+
+% packages
+\usepackage{expl3}
+\usepackage{bxjaholiday}
+
+% support files
+\input{regression-test.tex}
+\input{bxjh-general.tex}
+
+% settings
+\pagestyle{empty}
+\parindent=0pt
+
+\begin{document}
+
+\START
+
+\TEST{元日}{%
+  \TestHolidayName{1948}{1}{1}%
+  \TestHolidayName{1949}{1}{1}% 祝日法制定
+}
+
+\TEST{成人の日}{%
+  \TestHolidayName{1998}{1}{15}%
+  \TestHolidayName{1999}{1}{15}%
+  \TestHolidayName{2000}{1}{10}% 第2月曜に移動
+  \TestHolidayName{2001}{1}{8}%
+}
+
+\TEST{建国記念日}{%
+  \TestHolidayName{1966}{2}{11}%
+  \TestHolidayName{1967}{2}{11}% 制定年
+  \TestHolidayName{1968}{2}{11}%
+}
+
+\TEST{天皇誕生日（次）}{%
+  \TestHolidayName{2019}{2}{23}%
+  \TestHolidayName{2020}{2}{23}% （新元号）元年
+  \TestHolidayName{2021}{2}{23}%
+}
+
+\TEST{昭和天皇の大喪の礼}{%
+  \TestHolidayName{1989}{2}{24}%
+}
+
+\TEST{春分の日}{%
+  \TestHolidayName{1995}{3}{21}%
+  \TestHolidayName{2000}{3}{20}%
+  \TestHolidayName{2005}{3}{20}%
+}
+
+\TEST{昭和の日 / みどりの日 / 天皇誕生日（昭和）}{%
+  \TestHolidayName{1988}{4}{29}%
+  \TestHolidayName{1989}{4}{29}% みどりの日に改名（平成元年）
+  \TestHolidayName{1990}{4}{29}%
+  \TestHolidayName{2006}{4}{29}%
+  \TestHolidayName{2007}{4}{29}% 昭和の日に改名
+  \TestHolidayName{2008}{4}{29}%
+}
+
+\TEST{皇太子明仁親王の結婚の儀}{%
+  \TestHolidayName{1959}{4}{10}%
+}
+
+\TEST{憲法記念日}{%
+  \TestHolidayName{2000}{5}{3}% 祝日法制定以来・固定
+}
+
+\TEST{みどりの日}{%
+  \TestHolidayName{2007}{5}{4}% 4月から移動
+  \TestHolidayName{2008}{5}{4}%
+}
+
+\TEST{国民の休日（5月）}{%
+  \TestHolidayName{1988}{5}{4}%
+  \TestHolidayName{1989}{5}{4}%
+  \TestHolidayName{1990}{5}{4}%
+  \TestHolidayName{1991}{5}{4}%
+  \TestHolidayName{1992}{5}{4}% 振替休日
+  \TestHolidayName{1993}{5}{4}%
+  \TestHolidayName{1994}{5}{4}%
+  \TestHolidayName{1995}{5}{4}%
+  \TestHolidayName{1996}{5}{4}%
+  \TestHolidayName{1997}{5}{4}% 日曜
+  \TestHolidayName{1998}{5}{4}% 振替休日
+  \TestHolidayName{1999}{5}{4}%
+  \TestHolidayName{2000}{5}{4}%
+  \TestHolidayName{2001}{5}{4}%
+  \TestHolidayName{2002}{5}{4}%
+  \TestHolidayName{2003}{5}{4}% 日曜
+  \TestHolidayName{2004}{5}{4}%
+  \TestHolidayName{2005}{5}{4}%
+  \TestHolidayName{2006}{5}{4}%
+}
+
+\TEST{こどもの日}{%
+  \TestHolidayName{2000}{5}{5}% 祝日法制定以来・固定
+}
+
+\TEST{皇太子徳仁親王の結婚の儀}{%
+  \TestHolidayName{1993}{6}{9}%
+}
+
+\TEST{海の日}{%
+  \TestHolidayName{1995}{7}{20}%
+  \TestHolidayName{1996}{7}{20}% 制定年・固定
+  \TestHolidayName{2003}{7}{21}% 第3月曜に変更
+  \TestHolidayName{2004}{7}{19}%
+  \TestHolidayName{2020}{7}{23}% オリンピック特措法
+  \TestHolidayName{2021}{7}{19}%
+}
+
+\TEST{山の日}{%
+  \TestHolidayName{2015}{8}{11}%
+  \TestHolidayName{2016}{8}{11}% 制定年・固定
+  \TestHolidayName{2017}{8}{11}%
+  \TestHolidayName{2020}{8}{10}% オリンピック特措法
+  \TestHolidayName{2021}{8}{11}%
+}
+
+\TEST{敬老の日}{%
+  \TestHolidayName{1965}{9}{15}%
+  \TestHolidayName{1966}{9}{15}% 制定年・固定
+  \TestHolidayName{2003}{9}{15}% 第3月曜日に移動
+  \TestHolidayName{2004}{9}{20}%
+}
+
+\TEST{秋分の日}{%
+  \TestHolidayName{1995}{9}{23}%
+  \TestHolidayName{2005}{9}{23}%
+  \TestHolidayName{2012}{9}{22}%
+}
+
+\TEST{国民の休日（9月）}{%
+}
+
+\TEST{スポーツの日 / 体育の日}{%
+  \TestHolidayName{1965}{10}{10}%
+  \TestHolidayName{1966}{10}{10}% 制定年・固定
+  \TestHolidayName{1967}{10}{10}%
+  \TestHolidayName{2000}{10}{9}% 第2月曜日に移動
+  \TestHolidayName{2019}{10}{14}%
+  \TestHolidayName{2020}{7}{24}% オリンピック特措法・スポーツの日に改名
+  \TestHolidayName{2021}{10}{11}%
+}
+
+\TEST{文化の日}{%
+  \TestHolidayName{2000}{11}{3}% 祝日法制定以来・固定
+}
+
+\TEST{勤労感謝の日}{%
+  \TestHolidayName{2000}{11}{23}% 祝日法制定以来・固定
+}
+
+\TEST{即位礼正殿の儀}{%
+  \TestHolidayName{1990}{11}{12}%
+}
+
+\TEST{天皇誕生日（平成）}{%
+  \TestHolidayName{1988}{12}{23}%
+  \TestHolidayName{1989}{12}{23}% 平成元年
+  \TestHolidayName{2018}{12}{23}%
+  \TestHolidayName{2019}{12}{23}%
+}
+
+\END
+
+\end{document}
