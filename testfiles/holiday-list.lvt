@@ -6,7 +6,7 @@
 
 % support files
 \input{regression-test.tex}
-\input{bxjh-list.tex}
+\input{bxjh-holiday-list.tex}
 
 % settings
 \pagestyle{empty}

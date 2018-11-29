@@ -1,0 +1,42 @@
+\documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
+
+% packages
+\usepackage{xparse}
+\usepackage{bxjaholiday}
+
+% support files
+\input{regression-test.tex}
+
+\begin{document}
+
+\ExplSyntaxOn
+
+\START
+
+\TEST { bxjh_day_of_week_name:nnn }
+  {
+    \tl_set:Nf \l_tmpa_tl
+      { \bxjh_day_of_week_name:nnn { 2018 } { 11 } { 28 } }
+    \TYPE { \l_tmpa_tl }
+  }
+
+\TEST { bxjh_day_of_week:nnn }
+  {
+    \tl_set:Nf \l_tmpa_tl
+      { \bxjh_day_of_week:nnn { 2018 } { 11 } { 28 } }
+    \TYPE { \l_tmpa_tl }
+  }
+
+\TEST { bxjh_holiday_name:nnn }
+  {
+    \tl_set:Nf \l_tmpa_tl
+      { \bxjh_holiday_name:nnn { 2018 } { 1 } { 1 } }
+    \TYPE { \l_tmpa_tl }
+  }
+
+\END
+
+\ExplSyntaxOff
+
+\end{document}
+% vim: ft=expl3:

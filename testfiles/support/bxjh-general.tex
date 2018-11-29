@@ -14,5 +14,27 @@
     \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
   }
 
+%% \TestIfHolidayF { <year> } { <month> } { <day> }
+\NewDocumentCommand \TestIfHolidayF { m m m }
+  {
+    \tl_set:Nf \l_tmpa_tl { \IfJaHolidayF { #1 } { #2 } { #3 } { false } }
+    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+  }
+
+%% \TestIfHolidayT { <year> } { <month> } { <day> }
+\NewDocumentCommand \TestIfHolidayT { m m m }
+  {
+    \tl_set:Nf \l_tmpa_tl { \IfJaHolidayT { #1 } { #2 } { #3 } { true } }
+    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+  }
+
+%% \TestIfHolidayTF { <year> } { <month> } { <day> }
+\NewDocumentCommand \TestIfHolidayTF { m m m }
+  {
+    \tl_set:Nf \l_tmpa_tl
+      { \IfJaHolidayTF { #1 } { #2 } { #3 } { true } { false } }
+    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+  }
+
 \ExplSyntaxOff
 % vim: ft=expl3:

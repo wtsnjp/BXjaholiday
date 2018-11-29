@@ -1,0 +1,46 @@
+\documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
+
+% packages
+\usepackage{xparse}
+\usepackage{bxjaholiday}
+
+% support files
+\input{regression-test.tex}
+\input{bxjh-general.tex}
+
+% settings
+\pagestyle{empty}
+\parindent=0pt
+
+\begin{document}
+
+\START
+
+\TEST{jaholidayname}{%
+  \TestHolidayName{1949}{1}{1}
+  \TestHolidayName{2018}{11}{28}
+}
+
+\TEST{jadayofweek}{%
+  \TestDayOfWeek{1949}{1}{1}
+  \TestDayOfWeek{2018}{11}{28}
+}
+
+\TEST{IfJaHolidayF}{%
+  \TestIfHolidayF{1949}{1}{1}
+  \TestIfHolidayF{2018}{11}{28}
+}
+
+\TEST{IfJaHolidayT}{%
+  \TestIfHolidayT{1949}{1}{1}
+  \TestIfHolidayT{2018}{11}{28}
+}
+
+\TEST{IfJaHolidayTF}{%
+  \TestIfHolidayTF{1949}{1}{1}
+  \TestIfHolidayTF{2018}{11}{28}
+}
+
+\END
+
+\end{document}

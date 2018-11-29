@@ -3,14 +3,14 @@
 -- module name
 module = "bxjaholiday"
 
--- setup kpse
-kpse.set_program_name("luatex")
-
 -- check settings
 stdengine = "uptex"
-checkengines = {"luatex", "ptex", "uptex"} -- TODO: "pdftex" and "xetex"
+checkengines = {"luatex", "xetex", "ptex", "uptex"} -- no test for pdfTeX :(
 checkformat = "latex"
 checkopts = "-kanji=utf8 -interaction=nonstopmode"
+
+-- setup kpse
+kpse.set_program_name("luatex")
 
 -- load l3build
 dofile(kpse.lookup("l3build.lua"))
