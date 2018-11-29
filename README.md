@@ -5,8 +5,7 @@ LaTeX: Support for Japanese holidays
 ## System requirements
 
 * TeX format: LaTeX
-* TeX engine: pdfTeX, XeTeX, LuaTeX, pTeX, and upTeX  
-  (i.e., engines which supported by expl3; The e-TeX extension is **required**)
+* TeX engine: pdfTeX, XeTeX, LuaTeX, pTeX, and upTeX (The e-TeX extension is **required**)
 
 ## Usage
 

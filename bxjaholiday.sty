@@ -14,7 +14,7 @@
 
 \RequirePackage{expl3}
 \RequirePackage{xparse}
-\ProvidesExplPackage {bxjaholiday} {2018/11/25} {0.1.0}
+\ProvidesExplPackage {bxjaholiday} {2018/11/30} {0.1.0}
   {Support for Japanese holidays}
 
 % -------------------------------------------------- utilities
@@ -24,23 +24,14 @@
 \cs_new_eq:Nc \__bxjh_only_preamble:N { @onlypreamble }
 
 % shorthands
-%% \__bxjh_int_compare_and:nnT { <intexpr1> } { <intexpr2> } { <true code> }
-\cs_new:Npn \__bxjh_int_compare_and:nnT #1#2#3
-  {
-    \bool_lazy_and:nnT
-      { \int_compare_p:n { #1 } }
-      { \int_compare_p:n { #2 } }
-      { #3 }
-  }
-
-%% \__bxjh_int_compare_and:nnTF { <intexpr1> } { <intexpr2> }
+%% \__bxjh_int_compare_and:nn(TF) { <intexpr1> } { <intexpr2> }
 %%   { <true code> } { <false code> }
-\cs_new:Npn \__bxjh_int_compare_and:nnTF #1#2#3#4
+\prg_new_conditional:Npnn \__bxjh_int_compare_and:nn #1#2 { T, TF }
   {
     \bool_lazy_and:nnTF
       { \int_compare_p:n { #1 } }
       { \int_compare_p:n { #2 } }
-      { #3 } { #4 }
+      { \prg_return_true: } { \prg_return_false: }
   }
 
 % -------------------------------------------------- messages
@@ -63,7 +54,7 @@
 
 % -------------------------------------------------- Japanese string maker
 
-% scratch CS
+%% \__bxjh_next:n { <char> }
 \cs_new:Npn \__bxjh_next:n #1 {}
 
 %% \__bxjh_add_jchar:Nnnn <tl-var> { <hex-dump-of-utf8-bytes> }
@@ -89,15 +80,18 @@
         {
           \__bxjh_add_jchar_dec_helper:n { #1 }
         }
-      \cs_new:Npn \__bxjh_add_jchar_dec_helper:n #1
+      \cs_if_free:NT \__bxjh_add_jchar_dec_helper:n
         {
-          % #1 should have three tl items
-          \tl_map_inline:nn { #1 }
+          \cs_new:Npn \__bxjh_add_jchar_dec_helper:n #1
             {
-              \tl_set_rescan:Nnx \l_tmpa_tl
-                { \char_set_catcode_active:n { "##1 } }
-                { \char_generate:nn { "##1 } { 12 } }
-              \__bxjh_next:n { \exp_not:o { \l_tmpa_tl } }
+              % #1 should have three tl items
+              \tl_map_inline:nn { #1 }
+                {
+                  \tl_set_rescan:Nnx \l_tmpa_tl
+                    { \char_set_catcode_active:n { "##1 } }
+                    { \char_generate:nn { "##1 } { 12 } }
+                  \__bxjh_next:n { \exp_not:o { \l_tmpa_tl } }
+                }
             }
         }
     }
@@ -124,7 +118,7 @@
     {
       \cs_new:Npn \__bxjh_add_jchar_dec:nnn #1#2#3
         {
-         \__bxjh_next:n { \char_generate:nn { "#2 } { 11 } }
+          \__bxjh_next:n { \char_generate:nn { "#2 } { 11 } }
         }
     }
 
@@ -337,8 +331,6 @@
 \__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E3}{81}{AE} } { 306E } { 244E }
 \__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E5}{84}{80} } { 5100 } { 3537 }
 
-% -------------------------------------------------- support functions
-
 % -------------------------------------------------- day of week
 
 %% \bxjh_day_of_week_name:nnn { <year> } { <month> } { <day> }
@@ -413,7 +405,7 @@
   {
     \int_compare:nNnTF { #1 } < { 1948 }
       {
-        99  % before the Act on National Holidays
+        99 % before the Act on National Holidays
       }
       {
         \int_compare:nNnTF { #1 } < { 1980 }
@@ -431,7 +423,7 @@
                   \__bxjh_va_formula:nn { 20.8510 } { #1 }
                 }
                 {
-                  99  % unknown because no calculation formula
+                  99 % unknown because no calculation formula
                 }
               }
           }
@@ -775,7 +767,8 @@
       }
   }
 
-%% \bxjh_if_holiday:nnn(TF)
+%% \bxjh_if_holiday:nnn(TF) { <year> } { <month> } { <day> }
+%%   { <true code> } { <false code> }
 \prg_new_protected_conditional:Npnn \bxjh_if_holiday:nnn #1#2#3 { T, F, TF }
   {
     \exp_args:Nf \tl_if_empty:nTF
@@ -789,15 +782,12 @@
 %% \jaholidayname { <year> } { <month> } { <day> }
 \NewDocumentCommand \jaholidayname { m m m }
   {
-    % TODO: check types of #1, #2, and #3
-    % TODO: check the value of #1, #2, and #3 is in the range
     \bxjh_holiday_name:nnn { #1 } { #2 } { #3 }
   }
 
 %% \jadayofweek { <year> } { <month> } { <day> }
 \NewDocumentCommand \jadayofweek { m m m }
   {
-    % TODO: check types of #1, #2, and #3
     \bxjh_day_of_week_name:nnn { #1 } { #2 } { #3 }
   }
 
