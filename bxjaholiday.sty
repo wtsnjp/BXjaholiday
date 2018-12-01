@@ -60,6 +60,9 @@
 %% \__bxjh_add_jchar:Nnnn <tl-var> { <hex-dump-of-utf8-bytes> }
 %%   { <hex-dump-of-unicode-point> } { <hex-dump-of-JIS-bytes> }
 \__bxjh_only_preamble:N \__bxjh_add_jchar:Nnnn
+\__bxjh_only_preamble:N \__bxjh_add_jchar_dec:nnn
+\__bxjh_only_preamble:N \__bxjh_add_jchar_dec_helper:n
+
 \cs_new:Npn \__bxjh_add_jchar:Nnnn #1#2#3#4
   {
     \group_begin:
@@ -80,18 +83,15 @@
         {
           \__bxjh_add_jchar_dec_helper:n { #1 }
         }
-      \cs_if_free:NT \__bxjh_add_jchar_dec_helper:n
+      \cs_new:Npn \__bxjh_add_jchar_dec_helper:n #1
         {
-          \cs_new:Npn \__bxjh_add_jchar_dec_helper:n #1
+          % #1 should have three tl items
+          \tl_map_inline:nn { #1 }
             {
-              % #1 should have three tl items
-              \tl_map_inline:nn { #1 }
-                {
-                  \tl_set_rescan:Nnx \l_tmpa_tl
-                    { \char_set_catcode_active:n { "##1 } }
-                    { \char_generate:nn { "##1 } { 12 } }
-                  \__bxjh_next:n { \exp_not:o { \l_tmpa_tl } }
-                }
+              \tl_set_rescan:Nnx \l_tmpa_tl
+                { \char_set_catcode_active:n { "##1 } }
+                { \char_generate:nn { "##1 } { 12 } }
+              \__bxjh_next:n { \exp_not:o { \l_tmpa_tl } }
             }
         }
     }
@@ -342,12 +342,12 @@
 %
 % where
 %
-%   h = floor ( #1 / 100 ) ,
+%   h = \int_div_truncate:nn { #1 } { 100 } ,
 %   y = \int_mod:nn { #1 } { 100 } ,
 %   m = #2 ,
 %   d = #3 .
 %
-% Note that January and Febuary needs to be treated as 13rd and 14th
+% Note that January and Febuary needs to be treated as 13th and 14th
 % month of the former year respectively.
 \cs_new_protected:Npn \bxjh_day_of_week_name:nnn #1#2#3
   {
@@ -389,16 +389,6 @@
   }
 
 % -------------------------------------------------- holidays
-
-%% \__bxjh_va_formula:nn { <magic> } { <year> }
-\cs_new:Npn \__bxjh_va_formula:nn #1#2
-  {
-    \fp_eval:n {
-      floor (
-        #1 + 0.242194 * ( #2 - 1980 ) - floor ( ( #2 - 1980 ) / 4 )
-      )
-    }
-  }
 
 %% \__bxjh_vernal_equinox:n { <year> }
 \cs_new:Npn \__bxjh_vernal_equinox:n #1
@@ -458,6 +448,16 @@
               }
           }
       }
+  }
+
+%% \__bxjh_va_formula:nn { <magic> } { <year> }
+\cs_new:Npn \__bxjh_va_formula:nn #1#2
+  {
+    \fp_eval:n {
+      floor (
+        #1 + 0.242194 * ( #2 - 1980 ) - \int_div_truncate:nn { #2 - 1980 } { 4 }
+      )
+    }
   }
 
 %% \bxjh_holiday_name:nnn { <year> } { <month> } { <day> }

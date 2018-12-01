@@ -48,7 +48,36 @@
 \TEST{春分の日}{%
   \TestHolidayName{1995}{3}{21}%
   \TestHolidayName{2000}{3}{20}%
+  \TestHolidayName{2001}{3}{20}%
+  \TestHolidayName{2002}{3}{21}%
+  \TestHolidayName{2003}{3}{21}%
+  \TestHolidayName{2004}{3}{20}%
   \TestHolidayName{2005}{3}{20}%
+  \TestHolidayName{2006}{3}{21}%
+  \TestHolidayName{2007}{3}{21}%
+  \TestHolidayName{2008}{3}{20}%
+  \TestHolidayName{2009}{3}{20}%
+  \TestHolidayName{2010}{3}{21}%
+  \TestHolidayName{2011}{3}{21}%
+  \TestHolidayName{2012}{3}{20}%
+  \TestHolidayName{2013}{3}{20}%
+  \TestHolidayName{2014}{3}{21}%
+  \TestHolidayName{2015}{3}{21}%
+  \TestHolidayName{2016}{3}{20}%
+  \TestHolidayName{2017}{3}{20}%
+  \TestHolidayName{2018}{3}{21}%
+  \TestHolidayName{2019}{3}{21}%
+  \TestHolidayName{2020}{3}{20}%
+  \TestHolidayName{2021}{3}{20}%
+  \TestHolidayName{2022}{3}{21}%
+  \TestHolidayName{2023}{3}{21}%
+  \TestHolidayName{2024}{3}{20}%
+  \TestHolidayName{2025}{3}{20}%
+  \TestHolidayName{2026}{3}{20}%
+  \TestHolidayName{2027}{3}{21}%
+  \TestHolidayName{2028}{3}{20}%
+  \TestHolidayName{2029}{3}{20}%
+  \TestHolidayName{2030}{3}{20}%
 }
 
 \TEST{昭和の日 / みどりの日 / 天皇誕生日（昭和）}{%
@@ -129,11 +158,47 @@
 
 \TEST{秋分の日}{%
   \TestHolidayName{1995}{9}{23}%
+  \TestHolidayName{2000}{9}{23}%
+  \TestHolidayName{2001}{9}{23}%
+  \TestHolidayName{2002}{9}{23}%
+  \TestHolidayName{2003}{9}{23}%
+  \TestHolidayName{2004}{9}{23}%
   \TestHolidayName{2005}{9}{23}%
+  \TestHolidayName{2006}{9}{23}%
+  \TestHolidayName{2007}{9}{23}%
+  \TestHolidayName{2008}{9}{23}%
+  \TestHolidayName{2009}{9}{23}%
+  \TestHolidayName{2010}{9}{23}%
+  \TestHolidayName{2011}{9}{23}%
   \TestHolidayName{2012}{9}{22}%
+  \TestHolidayName{2013}{9}{23}%
+  \TestHolidayName{2014}{9}{23}%
+  \TestHolidayName{2015}{9}{23}%
+  \TestHolidayName{2016}{9}{22}%
+  \TestHolidayName{2017}{9}{23}%
+  \TestHolidayName{2018}{9}{23}%
+  \TestHolidayName{2019}{9}{23}%
+  \TestHolidayName{2020}{9}{22}%
+  \TestHolidayName{2021}{9}{23}%
+  \TestHolidayName{2022}{9}{23}%
+  \TestHolidayName{2023}{9}{23}%
+  \TestHolidayName{2024}{9}{22}%
+  \TestHolidayName{2025}{9}{23}%
+  \TestHolidayName{2026}{9}{23}%
+  \TestHolidayName{2027}{9}{23}%
+  \TestHolidayName{2028}{9}{22}%
+  \TestHolidayName{2029}{9}{23}%
+  \TestHolidayName{2030}{9}{23}%
 }
 
 \TEST{国民の休日（9月）}{%
+  \TestHolidayName{2009}{9}{22}%
+  \TestHolidayName{2015}{9}{22}%
+  \TestHolidayName{2032}{9}{21}%
+  \TestHolidayName{2026}{9}{22}%
+  \TestHolidayName{2037}{9}{22}%
+  \TestHolidayName{2043}{9}{22}%
+  \TestHolidayName{2049}{9}{21}%
 }
 
 \TEST{スポーツの日 / 体育の日}{%
@@ -163,6 +228,13 @@
   \TestHolidayName{1989}{12}{23}% 平成元年
   \TestHolidayName{2018}{12}{23}%
   \TestHolidayName{2019}{12}{23}%
+}
+
+\TEST{振替休日}{%
+  \TestHolidayName{2018}{2}{12}%
+  \TestHolidayName{2018}{4}{30}%
+  \TestHolidayName{2018}{9}{24}%
+  \TestHolidayName{2018}{12}{24}%
 }
 
 \END
