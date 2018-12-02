@@ -349,7 +349,7 @@
 %
 % Note that January and Febuary needs to be treated as 13th and 14th
 % month of the former year respectively.
-\cs_new_protected:Npn \bxjh_day_of_week_name:nnn #1#2#3
+\cs_new:Npn \bxjh_day_of_week_name:nnn #1#2#3
   {
     \int_case:nn { \bxjh_day_of_week:nnn { #1 } { #2 } { #3 } }
       {
@@ -363,7 +363,7 @@
       }
   }
 
-\cs_new_protected:Npn \bxjh_day_of_week:nnn #1#2#3
+\cs_new:Npn \bxjh_day_of_week:nnn #1#2#3
   {
     \int_compare:nNnTF { #2 } < { 3 }
       {
@@ -461,7 +461,7 @@
   }
 
 %% \bxjh_holiday_name:nnn { <year> } { <month> } { <day> }
-\cs_new_protected:Npn \bxjh_holiday_name:nnn #1#2#3
+\cs_new:Npn \bxjh_holiday_name:nnn #1#2#3
   {
     \exp_args:Nf \__bxjh_holiday_name_wrapper:nnnn
       { \__bxjh_holiday_name_naive:nnn { #1 } { #2 } { #3 } }
@@ -769,7 +769,7 @@
 
 %% \bxjh_if_holiday:nnn(TF) { <year> } { <month> } { <day> }
 %%   { <true code> } { <false code> }
-\prg_new_protected_conditional:Npnn \bxjh_if_holiday:nnn #1#2#3 { T, F, TF }
+\prg_new_conditional:Npnn \bxjh_if_holiday:nnn #1#2#3 { T, F, TF }
   {
     \exp_args:Nf \tl_if_empty:nTF
       { \bxjh_holiday_name:nnn { #1 } { #2 } { #3 } }
@@ -780,13 +780,13 @@
 % -------------------------------------------------- LaTeX2e interface
 
 %% \jaholidayname { <year> } { <month> } { <day> }
-\NewDocumentCommand \jaholidayname { m m m }
+\NewExpandableDocumentCommand \jaholidayname { m m m }
   {
     \bxjh_holiday_name:nnn { #1 } { #2 } { #3 }
   }
 
 %% \jadayofweek { <year> } { <month> } { <day> }
-\NewDocumentCommand \jadayofweek { m m m }
+\NewExpandableDocumentCommand \jadayofweek { m m m }
   {
     \bxjh_day_of_week_name:nnn { #1 } { #2 } { #3 }
   }
