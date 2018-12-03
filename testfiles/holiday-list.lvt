@@ -1,16 +1,12 @@
 \documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
 
 % packages
-\usepackage{expl3}
+\usepackage{xparse}
 \usepackage{bxjaholiday}
 
 % support files
 \input{regression-test.tex}
 \input{bxjh-holiday-list.tex}
-
-% settings
-\pagestyle{empty}
-\parindent=0pt
 
 \begin{document}
 

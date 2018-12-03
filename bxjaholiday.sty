@@ -13,8 +13,7 @@
 % -------------------------------------------------- declarations
 
 \RequirePackage{expl3}
-\RequirePackage{xparse}
-\ProvidesExplPackage {bxjaholiday} {2018/11/30} {0.1.0}
+\ProvidesExplPackage {bxjaholiday} {2018/12/03} {0.1.0}
   {Support for Japanese holidays}
 
 % -------------------------------------------------- utilities
@@ -25,7 +24,7 @@
 
 % shorthands
 %% \__bxjh_int_compare_and:nn(TF) { <intexpr1> } { <intexpr2> }
-%%   { <true code> } { <false code> }
+%%   ( { <true code> } ) ( { <false code> } )
 \prg_new_conditional:Npnn \__bxjh_int_compare_and:nn #1#2 { T, TF }
   {
     \bool_lazy_and:nnTF
@@ -768,7 +767,7 @@
   }
 
 %% \bxjh_if_holiday:nnn(TF) { <year> } { <month> } { <day> }
-%%   { <true code> } { <false code> }
+%%   ( { <true code> } ) ( { <false code> } )
 \prg_new_conditional:Npnn \bxjh_if_holiday:nnn #1#2#3 { T, F, TF }
   {
     \exp_args:Nf \tl_if_empty:nTF
@@ -780,16 +779,10 @@
 % -------------------------------------------------- LaTeX2e interface
 
 %% \jaholidayname { <year> } { <month> } { <day> }
-\NewExpandableDocumentCommand \jaholidayname { m m m }
-  {
-    \bxjh_holiday_name:nnn { #1 } { #2 } { #3 }
-  }
+\cs_new_eq:NN \jaholidayname \bxjh_holiday_name:nnn
 
 %% \jadayofweek { <year> } { <month> } { <day> }
-\NewExpandableDocumentCommand \jadayofweek { m m m }
-  {
-    \bxjh_day_of_week_name:nnn { #1 } { #2 } { #3 }
-  }
+\cs_new_eq:NN \jadayofweek \bxjh_day_of_week_name:nnn
 
 %% \IfJaHoliday(TF) { <year> } { <month> } { <day> }
 %%   ( { <true code> } ) ( { <false code> } )

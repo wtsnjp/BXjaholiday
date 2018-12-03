@@ -21,6 +21,11 @@ This package provides following LaTeX2e commands:
 
 This package is distributed under [the MIT license](./LICENSE).
 
+## Revision History
+
+* Version 0.1.0  ‹2018/12/03›
+	 * The first public version.
+
 ---
 
 Takuto ASAKURA ([wtsnjp](https://twitter.com/wtsnjp))

@@ -1,11 +1,11 @@
 \documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
 
 % packages
-\usepackage{xparse}
 \usepackage{bxjaholiday}
 
 % support files
 \input{regression-test.tex}
+\input{bxjh-interface.tex}
 
 \begin{document}
 
@@ -13,25 +13,44 @@
 
 \START
 
+\TEST { bxjh_holiday_name:nnn }
+  {
+    \test_interface:n { \bxjh_holiday_name:nnn { 1949 } { 1 } { 1 } }
+    \test_interface:n { \bxjh_holiday_name:nnn { 2018 } { 11 } { 28 } }
+  }
+
 \TEST { bxjh_day_of_week_name:nnn }
   {
-    \tl_set:Nf \l_tmpa_tl
-      { \bxjh_day_of_week_name:nnn { 2018 } { 11 } { 28 } }
-    \TYPE { \l_tmpa_tl }
+    \test_interface:n { \bxjh_day_of_week_name:nnn { 1949 } { 1 } { 1 } }
+    \test_interface:n { \bxjh_day_of_week_name:nnn { 2018 } { 11 } { 28 } }
   }
 
 \TEST { bxjh_day_of_week:nnn }
   {
-    \tl_set:Nf \l_tmpa_tl
-      { \bxjh_day_of_week:nnn { 2018 } { 11 } { 28 } }
-    \TYPE { \l_tmpa_tl }
+    \test_interface:n { \bxjh_day_of_week:nnn { 1949 } { 1 } { 1 } }
+    \test_interface:n { \bxjh_day_of_week:nnn { 2018 } { 11 } { 28 } }
   }
 
-\TEST { bxjh_holiday_name:nnn }
+\TEST { bxjh_if_holiday:nnnF }
   {
-    \tl_set:Nf \l_tmpa_tl
-      { \bxjh_holiday_name:nnn { 2018 } { 1 } { 1 } }
-    \TYPE { \l_tmpa_tl }
+    \test_interface:n { \bxjh_if_holiday:nnnF { 1949 } { 1 } { 1 } { false } }
+    \test_interface:n { \bxjh_if_holiday:nnnF { 2018 } { 11 } { 28 } { false } }
+  }
+
+\TEST { bxjh_if_holiday:nnnT }
+  {
+    \test_interface:n { \bxjh_if_holiday:nnnT { 1949 } { 1 } { 1 } { true } }
+    \test_interface:n { \bxjh_if_holiday:nnnT { 2018 } { 11 } { 28 } { true } }
+  }
+
+\TEST { bxjh_if_holiday:nnnTF }
+  {
+    \test_interface:n {
+      \bxjh_if_holiday:nnnTF { 1949 } { 1 } { 1 } { true } { false }
+    }
+    \test_interface:n {
+      \bxjh_if_holiday:nnnTF { 2018 } { 11 } { 28 } { true } { false }
+    }
   }
 
 \END

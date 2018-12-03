@@ -1,0 +1,13 @@
+\ExplSyntaxOn
+
+%% \test_interface:n { <code> }
+%% \TestInterface { <code> }
+\cs_set_protected:Npn \test_interface:n #1
+  {
+    \exp_args:Nf \tl_show:n { #1 }
+    \exp_args:Nx \tl_show:n { #1 }
+  }
+\cs_new_eq:NN \TestInterface \test_interface:n
+
+\ExplSyntaxOff
+% vim: ft=expl3:

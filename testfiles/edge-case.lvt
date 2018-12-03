@@ -2,16 +2,12 @@
 \documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
 
 % packages
-\usepackage{expl3}
+\usepackage{xparse}
 \usepackage{bxjaholiday}
 
 % support files
 \input{regression-test.tex}
-\input{bxjh-general.tex}
-
-% settings
-\pagestyle{empty}
-\parindent=0pt
+\input{bxjh-edge-case.tex}
 
 \begin{document}
 

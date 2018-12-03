@@ -1,44 +1,39 @@
 \documentclass[autodetect-engine, ja=standard, dvi=dvipdfmx]{bxjsarticle}
 
 % packages
-\usepackage{xparse}
 \usepackage{bxjaholiday}
 
 % support files
 \input{regression-test.tex}
-\input{bxjh-general.tex}
-
-% settings
-\pagestyle{empty}
-\parindent=0pt
+\input{bxjh-interface.tex}
 
 \begin{document}
 
 \START
 
 \TEST{jaholidayname}{%
-  \TestHolidayName{1949}{1}{1}
-  \TestHolidayName{2018}{11}{28}
+  \TestInterface{\jaholidayname{1949}{1}{1}}
+  \TestInterface{\jaholidayname{2018}{11}{28}}
 }
 
-\TEST{jadayofweek}{%
-  \TestDayOfWeek{1949}{1}{1}
-  \TestDayOfWeek{2018}{11}{28}
+\TEST{jaholidayname}{%
+  \TestInterface{\jadayofweek{1949}{1}{1}}
+  \TestInterface{\jadayofweek{2018}{11}{28}}
 }
 
 \TEST{IfJaHolidayF}{%
-  \TestIfHolidayF{1949}{1}{1}
-  \TestIfHolidayF{2018}{11}{28}
+  \TestInterface{\IfJaHolidayF{1949}{1}{1}{false}}
+  \TestInterface{\IfJaHolidayF{2018}{11}{28}{false}}
 }
 
 \TEST{IfJaHolidayT}{%
-  \TestIfHolidayT{1949}{1}{1}
-  \TestIfHolidayT{2018}{11}{28}
+  \TestInterface{\IfJaHolidayT{1949}{1}{1}{true}}
+  \TestInterface{\IfJaHolidayT{2018}{11}{28}{true}}
 }
 
 \TEST{IfJaHolidayTF}{%
-  \TestIfHolidayTF{1949}{1}{1}
-  \TestIfHolidayTF{2018}{11}{28}
+  \TestInterface{\IfJaHolidayTF{1949}{1}{1}{true}{false}}
+  \TestInterface{\IfJaHolidayTF{2018}{11}{28}{true}{false}}
 }
 
 \END
