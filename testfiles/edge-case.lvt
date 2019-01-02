@@ -216,7 +216,8 @@
 }
 
 \TEST{即位礼正殿の儀}{%
-  \TestHolidayName{1990}{11}{12}%
+  \TestHolidayName{1990}{11}{12}% 平成
+  \TestHolidayName{2019}{10}{22}%
 }
 
 \TEST{天皇誕生日（平成）}{%
@@ -231,6 +232,12 @@
   \TestHolidayName{2018}{4}{30}%
   \TestHolidayName{2018}{9}{24}%
   \TestHolidayName{2018}{12}{24}%
+}
+
+\TEST{2019年 臨時休日}{%
+  \TestHolidayName{2019}{4}{30}%
+  \TestHolidayName{2019}{5}{1}%
+  \TestHolidayName{2019}{5}{2}%
 }
 
 \END

@@ -321,14 +321,20 @@
 \__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E3}{81}{AE} } { 306E } { 244E }
 \__bxjh_add_jchar:Nnnn \g_bxjh_naruhito_kekkon_tl { {E5}{84}{80} } { 5100 } { 3537 }
 
+\tl_new:N \g_bxjh_sokuirei_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokuirei_tl { {E5}{8D}{B3} } { 5373 } { 4228 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokuirei_tl { {E4}{BD}{8D} } { 4F4D } { 304C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokuirei_tl { {E7}{A4}{BC} } { 793C } { 4E69 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokuirei_tl { {E6}{AD}{A3} } { 6B63 } { 4035 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokuirei_tl { {E6}{AE}{BF} } { 6BBF } { 4542 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokuirei_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokuirei_tl { {E5}{84}{80} } { 5100 } { 3537 }
+
 \tl_new:N \g_bxjh_sokui_tl
 \__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E5}{8D}{B3} } { 5373 } { 4228 }
 \__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E4}{BD}{8D} } { 4F4D } { 304C }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E7}{A4}{BC} } { 793C } { 4E69 }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E6}{AD}{A3} } { 6B63 } { 4035 }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E6}{AE}{BF} } { 6BBF } { 4542 }
 \__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E3}{81}{AE} } { 306E } { 244E }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E5}{84}{80} } { 5100 } { 3537 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sokui_tl { {E6}{97}{A5} } { 65E5 } { 467C }
 
 % -------------------------------------------------- day of week
 
@@ -553,8 +559,12 @@
                     }
                 }
                 {
-                  \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19590410 }
-                    { \g_bxjh_akihito_kekkon_tl }
+                  \int_compare:nNnTF { #1 * 10000 + #2 * 100 + #3 } = { 20190430 }
+                    { \g_bxjh_kokumin_tl } % the abdication of the Heisei Emperor
+                    {
+                      \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19590410 }
+                        { \g_bxjh_akihito_kekkon_tl }
+                    }
                 }
             }
 
@@ -584,7 +594,7 @@
                       \int_compare:nNnTF { #3 } = { 5 }
                         { \g_bxjh_kodomo_tl }
                         {
-                          \int_compare:nNnT { #3 } = { 6 }
+                          \int_compare:nNnTF { #3 } = { 6 }
                             {
                               \int_compare:nNnT { #1 } > { 2006 }
                                 {
@@ -594,6 +604,14 @@
                                       { \c_bxjh_tuesday_int } { \g_bxjh_furikae_tl }
                                       { \c_bxjh_wednesday_int } { \g_bxjh_furikae_tl }
                                     }
+                                }
+                            }
+                            {
+                              \int_compare:nNnTF { #1 * 10000 + #2 * 100 + #3 } = { 20190501 }
+                                { \g_bxjh_sokui_tl } % Naruhito
+                                {
+                                  \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 20190502 }
+                                    { \g_bxjh_kokumin_tl }
                                 }
                             }
                         }
@@ -721,13 +739,18 @@
                     {
                       \int_compare:nNnTF { #1 } > { 1999 }
                         {
-                          \__bxjh_int_compare_and:nnT % second Monday
+                          \__bxjh_int_compare_and:nnTF % second Monday
                             { \int_div_truncate:nn { #3 - 1 } { 7 } = 1 }
                             {
                               \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
                               = \c_bxjh_monday_int
                             }
                             { \g_bxjh_taiiku_tl }
+                            {
+                              \int_compare:nNnT
+                                { #1 * 10000 + #2 * 100 + #3 } = { 20191022 }
+                                { \g_bxjh_sokuirei_tl } % Naruhito
+                            }
                         }
                         {
                           \__bxjh_int_compare_and:nnT
@@ -748,7 +771,7 @@
                     {
                       \int_compare:nNnT
                         { #1 * 10000 + #2 * 100 + #3 } = { 19901112 }
-                        { \g_bxjh_sokui_tl }
+                        { \g_bxjh_sokuirei_tl }
                     }
                 }
             }
