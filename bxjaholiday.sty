@@ -22,7 +22,7 @@
 %% \__bxjh_only_preamble:N \CS
 \cs_new_eq:Nc \__bxjh_only_preamble:N { @onlypreamble }
 
-% shorthands
+% short hands
 %% \__bxjh_int_compare_and:nn(TF) { <intexpr1> } { <intexpr2> }
 %%   ( { <true code> } ) ( { <false code> } )
 \prg_new_conditional:Npnn \__bxjh_int_compare_and:nn #1#2 { T, TF }
@@ -352,7 +352,7 @@
 %   m = #2 ,
 %   d = #3 .
 %
-% Note that January and Febuary needs to be treated as 13th and 14th
+% Note that January and February needs to be treated as 13th and 14th
 % month of the former year respectively.
 \cs_new:Npn \bxjh_day_of_week_name:nnn #1#2#3
   {
@@ -526,7 +526,7 @@
                 }
             }
 
-            { 2 } % Febuary
+            { 2 } % February
             {
               \__bxjh_int_compare_and:nnTF { #3 = 11 } { #1 > 1966 }
                 { \g_bxjh_kenkoku_tl }
