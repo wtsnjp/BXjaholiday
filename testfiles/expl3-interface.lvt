@@ -15,42 +15,102 @@
 
 \TEST { bxjh_holiday_name:nnn }
   {
-    \test_interface:n { \bxjh_holiday_name:nnn { 1949 } { 1 } { 1 } }
-    \test_interface:n { \bxjh_holiday_name:nnn { 2018 } { 11 } { 28 } }
+    \bxjh_test_interface:n { \bxjh_holiday_name:nnn { 1949 } { 1 } { 1 } }
+    \bxjh_test_interface:n { \bxjh_holiday_name:nnn { 2018 } { 11 } { 28 } }
   }
 
 \TEST { bxjh_day_of_week_name:nnn }
   {
-    \test_interface:n { \bxjh_day_of_week_name:nnn { 1949 } { 1 } { 1 } }
-    \test_interface:n { \bxjh_day_of_week_name:nnn { 2018 } { 11 } { 28 } }
+    \bxjh_test_interface:n { \bxjh_day_of_week_name:nnn { 1949 } { 1 } { 1 } }
+    \bxjh_test_interface:n { \bxjh_day_of_week_name:nnn { 2018 } { 11 } { 28 } }
   }
 
 \TEST { bxjh_day_of_week:nnn }
   {
-    \test_interface:n { \bxjh_day_of_week:nnn { 1949 } { 1 } { 1 } }
-    \test_interface:n { \bxjh_day_of_week:nnn { 2018 } { 11 } { 28 } }
+    \bxjh_test_interface:n { \bxjh_day_of_week:nnn { 1949 } { 1 } { 1 } }
+    \bxjh_test_interface:n { \bxjh_day_of_week:nnn { 2018 } { 11 } { 28 } }
   }
 
 \TEST { bxjh_if_holiday:nnnF }
   {
-    \test_interface:n { \bxjh_if_holiday:nnnF { 1949 } { 1 } { 1 } { false } }
-    \test_interface:n { \bxjh_if_holiday:nnnF { 2018 } { 11 } { 28 } { false } }
+    \bxjh_test_interface:n { \bxjh_if_holiday:nnnF { 1949 } { 1 } { 1 } { false } }
+    \bxjh_test_interface:n { \bxjh_if_holiday:nnnF { 2018 } { 11 } { 28 } { false } }
   }
 
 \TEST { bxjh_if_holiday:nnnT }
   {
-    \test_interface:n { \bxjh_if_holiday:nnnT { 1949 } { 1 } { 1 } { true } }
-    \test_interface:n { \bxjh_if_holiday:nnnT { 2018 } { 11 } { 28 } { true } }
+    \bxjh_test_interface:n { \bxjh_if_holiday:nnnT { 1949 } { 1 } { 1 } { true } }
+    \bxjh_test_interface:n { \bxjh_if_holiday:nnnT { 2018 } { 11 } { 28 } { true } }
   }
 
 \TEST { bxjh_if_holiday:nnnTF }
   {
-    \test_interface:n {
-      \bxjh_if_holiday:nnnTF { 1949 } { 1 } { 1 } { true } { false }
-    }
-    \test_interface:n {
-      \bxjh_if_holiday:nnnTF { 2018 } { 11 } { 28 } { true } { false }
-    }
+    \bxjh_test_interface:n
+      {
+        \bxjh_if_holiday:nnnTF { 1949 } { 1 } { 1 } { true } { false }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_if_holiday:nnnTF { 2018 } { 11 } { 28 } { true } { false }
+      }
+  }
+
+\TEST { bxjh_apply_next_day }
+  {
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn
+          { 1999 } { 12 } { 31 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn
+          { 1999 } { 2 } { 28 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn
+          { 2000 } { 2 } { 28 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn
+          { 2004 } { 2 } { 28 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn
+          { 2100 } { 2 } { 28 }
+      }
+  }
+
+\TEST { bxjh_apply_prev_day }
+  {
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn
+          { 2000 } { 1 } { 1 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn
+          { 1999 } { 3 } { 1 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn
+          { 2000 } { 3 } { 1 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn
+          { 2004 } { 3 } { 1 }
+      }
+    \bxjh_test_interface:n
+      {
+        \bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn
+          { 2100 } { 3 } { 1 }
+      }
   }
 
 \END

@@ -405,6 +405,92 @@
       { 7 }
   }
 
+% -------------------------------------------------- next/prev day
+
+%% \__bxjh_number_of_days_in_month:nn { <year> } { <month> }
+\cs_new:Npn \__bxjh_number_of_days_in_month:nn #1#2
+  {
+    \int_case:nn { #2 }
+      {
+        { 1 } { 31 } % January
+        { 2 } % February
+        {
+          \int_compare:nNnTF { \int_mod:nn { #1 } { 4 } } = { 0 }
+            {
+              \__bxjh_int_compare_and:nnTF
+                { \int_mod:nn { #1 } { 100 } = 0 }
+                { \int_mod:nn { #1 } { 400 } > 0 }
+                { 28 }
+                { 29 } % leap year
+            }
+            { 28 }
+        }
+        { 3 } { 31 } % March
+        { 4 } { 30 } % April
+        { 5 } { 31 } % May
+        { 6 } { 30 } % June
+        { 7 } { 31 } % July
+        { 8 } { 31 } % August
+        { 9 } { 30 } % September
+        { 10 } { 31 } % October
+        { 11 } { 30 } % November
+        { 12 } { 31 } % December
+      }
+  }
+
+%% \__bxjh_apply_after_int_eval:Nnnn \CS { <intexpr1> } { <intexpr2> } { <intexpr3> }
+% this is for calculation efficiency
+\cs_new:Npn \__bxjh_apply_after_int_eval:Nnnn #1#2#3#4
+  {
+    \exp_args:Nfff #1
+      { \int_eval:n { #2 } } { \int_eval:n { #3 } } { \int_eval:n { #4 } }
+  }
+\exp_args_generate:n { fff }
+
+%% \bxjh_apply_next_day:Nnnn \CS { <year> } { <month> } { <day> }
+\cs_new:Npn \bxjh_apply_next_day:Nnnn #1#2#3#4
+  {
+    \int_compare:nNnTF
+      { #4 } < { \__bxjh_number_of_days_in_month:nn { #2 } { #3 } }
+      {
+        % just next day in the month
+        \__bxjh_apply_after_int_eval:Nnnn #1 { #2 } { #3 } { #4 + 1 }
+      }
+      {
+        \int_compare:nNnTF { #3 } < { 12 }
+          {
+            % the first day of next month
+            \__bxjh_apply_after_int_eval:Nnnn #1 { #2 } { #3 + 1 } { 1 }
+          }
+          {
+            % the first day of next year
+            \__bxjh_apply_after_int_eval:Nnnn #1 { #2 + 1 } { 1 } { 1 }
+          }
+      }
+  }
+
+%% \bxjh_apply_prev_day:Nnnn \CS { <year> } { <month> } { <day> }
+\cs_new:Npn \bxjh_apply_prev_day:Nnnn #1#2#3#4
+  {
+    \int_compare:nNnTF { #4 } > { 1 }
+      {
+        % just prev day in the month
+        \__bxjh_apply_after_int_eval:Nnnn #1 { #2 } { #3 } { #4 - 1 }
+      }
+      {
+        \int_compare:nNnTF { #3 } > { 1 }
+          {
+            % the last day of prev month
+            \__bxjh_apply_after_int_eval:Nnnn #1 { #2 } { #3 - 1 }
+              { \__bxjh_number_of_days_in_month:nn { #2 } { #3 - 1 } }
+          }
+          {
+            % the last day of prev year
+            \__bxjh_apply_after_int_eval:Nnnn #1 { #2 - 1 } { 12 } { 31 }
+          }
+      }
+  }
+
 % -------------------------------------------------- holidays
 
 %% \__bxjh_vernal_equinox:n { <year> }
@@ -503,9 +589,8 @@
               }
           }
           {
-            \bxjh_if_holiday:nnnT
-              { #2 } { #3 } { #4 - 1 } % no chance to go prev month
-              { \g_bxjh_furikae_tl }
+            \bxjh_apply_prev_day:Nnnn \bxjh_if_holiday:nnnT
+              { #2 } { #3 } { #4 } { \g_bxjh_furikae_tl }
           }
       }
       { #1 }

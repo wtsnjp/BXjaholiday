@@ -3,96 +3,98 @@ Don't change this file in any respect.
 ============================================================
 TEST 1: bxjh_holiday_name:nnn
 ============================================================
-> 元日.
-<recently read> }
-l. ...  }
-> 元日.
-<recently read> }
-l. ...  }
-> .
-<recently read> }
-l. ...  }
-> .
-<recently read> }
-l. ...  }
+\bxjh_holiday_name:nnn {1949}{1}{1}
+元日.
+元日.
+\bxjh_holiday_name:nnn {2018}{11}{28}
+.
+.
 ============================================================
 ============================================================
 TEST 2: bxjh_day_of_week_name:nnn
 ============================================================
-> 土.
-<recently read> }
-l. ...  }
-> 土.
-<recently read> }
-l. ...  }
-> 水.
-<recently read> }
-l. ...  }
-> 水.
-<recently read> }
-l. ...  }
+\bxjh_day_of_week_name:nnn {1949}{1}{1}
+土.
+土.
+\bxjh_day_of_week_name:nnn {2018}{11}{28}
+水.
+水.
 ============================================================
 ============================================================
 TEST 3: bxjh_day_of_week:nnn
 ============================================================
-> 5.
-<recently read> }
-l. ...  }
-> 5.
-<recently read> }
-l. ...  }
-> 2.
-<recently read> }
-l. ...  }
-> 2.
-<recently read> }
-l. ...  }
+\bxjh_day_of_week:nnn {1949}{1}{1}
+5.
+5.
+\bxjh_day_of_week:nnn {2018}{11}{28}
+2.
+2.
 ============================================================
 ============================================================
 TEST 4: bxjh_if_holiday:nnnF
 ============================================================
-> .
-<recently read> }
-l. ...  }
-> .
-<recently read> }
-l. ...  }
-> false.
-<recently read> }
-l. ...  }
-> false.
-<recently read> }
-l. ...  }
+\bxjh_if_holiday:nnnF {1949}{1}{1}{false}
+.
+.
+\bxjh_if_holiday:nnnF {2018}{11}{28}{false}
+false.
+false.
 ============================================================
 ============================================================
 TEST 5: bxjh_if_holiday:nnnT
 ============================================================
-> true.
-<recently read> }
-l. ...  }
-> true.
-<recently read> }
-l. ...  }
-> .
-<recently read> }
-l. ...  }
-> .
-<recently read> }
-l. ...  }
+\bxjh_if_holiday:nnnT {1949}{1}{1}{true}
+true.
+true.
+\bxjh_if_holiday:nnnT {2018}{11}{28}{true}
+.
+.
 ============================================================
 ============================================================
 TEST 6: bxjh_if_holiday:nnnTF
 ============================================================
-> true.
-<recently read> }
-l. ...  }
-> true.
-<recently read> }
-l. ...  }
-> false.
-<recently read> }
-l. ...  }
-> false.
-<recently read> }
-l. ...  }
+\bxjh_if_holiday:nnnTF {1949}{1}{1}{true}{false}
+true.
+true.
+\bxjh_if_holiday:nnnTF {2018}{11}{28}{true}{false}
+false.
+false.
+============================================================
+============================================================
+TEST 7: bxjh_apply_next_day
+============================================================
+\bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn {1999}{12}{31}
+2000/1/1.
+2000/1/1.
+\bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn {1999}{2}{28}
+1999/3/1.
+1999/3/1.
+\bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn {2000}{2}{28}
+2000/2/29.
+2000/2/29.
+\bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn {2004}{2}{28}
+2004/2/29.
+2004/2/29.
+\bxjh_apply_next_day:Nnnn \bxjh_test_format_day:nnn {2100}{2}{28}
+2100/3/1.
+2100/3/1.
+============================================================
+============================================================
+TEST 8: bxjh_apply_prev_day
+============================================================
+\bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn {2000}{1}{1}
+1999/12/31.
+1999/12/31.
+\bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn {1999}{3}{1}
+1999/2/28.
+1999/2/28.
+\bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn {2000}{3}{1}
+2000/2/29.
+2000/2/29.
+\bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn {2004}{3}{1}
+2004/2/29.
+2004/2/29.
+\bxjh_apply_prev_day:Nnnn \bxjh_test_format_day:nnn {2100}{3}{1}
+2100/2/28.
+2100/2/28.
 ============================================================

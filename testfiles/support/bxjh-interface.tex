@@ -1,13 +1,19 @@
 \ExplSyntaxOn
 
-%% \test_interface:n { <code> }
+%% \bxjh_test_format_day:nnn { <year> } { <month> } { <day> }
+\cs_new:Npn \bxjh_test_format_day:nnn #1#2#3 { #1 / #2 / #3 }
+
+%% \bxjh_test_interface:n { <code> }
 %% \TestInterface { <code> }
-\cs_set_protected:Npn \test_interface:n #1
+\cs_new_protected:Npn \bxjh_test_interface:n #1
   {
-    \exp_args:Nf \tl_show:n { #1 }
-    \exp_args:Nx \tl_show:n { #1 }
+    \TYPE { \exp_not:n { #1 } }
+    \tl_set:Nf \l_tmpa_tl { #1 }
+    \tl_set:Nx \l_tmpb_tl { #1 }
+    \TYPE { \exp_not:o { \l_tmpa_tl } . }
+    \TYPE { \exp_not:o { \l_tmpb_tl } . }
   }
-\cs_new_eq:NN \TestInterface \test_interface:n
+\cs_new_eq:NN \TestInterface \bxjh_test_interface:n
 
 \ExplSyntaxOff
 % vim: ft=expl3:

@@ -8,55 +8,37 @@
 \int_new:N \l_bxjh_test_tmpa_int
 \int_new:N \l_bxjh_test_tmpb_int
 
-\seq_new:N \l_bxjh_test_number_of_days_seq
-\seq_const_from_clist:Nn \c_bxjh_test_number_of_days_seq
-  { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
-
 %% \HolidaysList { <year> }
 \NewDocumentCommand \HolidaysList { m }
   {
-    \seq_set_eq:NN \l_bxjh_test_number_of_days_seq \c_bxjh_test_number_of_days_seq
-
-    \int_zero:N \l_bxjh_test_tmpa_int
-    \int_do_while:nNnn { \l_bxjh_test_tmpa_int } < { 12 }
+    \cs_set:Npn \__bxjh_test_holiday_list_rec:nnn ##1##2##3
       {
-        \int_incr:N \l_bxjh_test_tmpa_int
-        \seq_pop_left:NN \l_bxjh_test_number_of_days_seq \l_bxjh_test_number_of_days_tl
-
-        % TODO: treat February
-
-        \int_zero:N \l_bxjh_test_tmpb_int
-        \int_do_while:nNnn
-          { \l_bxjh_test_tmpb_int } < { \l_bxjh_test_number_of_days_tl }
+        \int_compare:nNnT { #1 } = { ##1 }
           {
-            \int_incr:N \l_bxjh_test_tmpb_int
-            \bxjh_test_print_holiday:nxx { #1 }
-              { \int_use:N \l_bxjh_test_tmpa_int }
-              { \int_use:N \l_bxjh_test_tmpb_int }
+            \tl_set:Nf \l_bxjh_test_holiday_name_tl
+              { \bxjh_holiday_name:nnn { ##1 } { ##2 } { ##3 } }
+
+            \tl_if_empty:NF \l_bxjh_test_holiday_name_tl
+              {
+                \tl_set:Nf \l_bxjh_test_week_of_day_name_tl
+                  { \bxjh_day_of_week_name:nnn { ##1 } { ##2 } { ##3 } }
+
+                \TYPE
+                  {
+                    \int_eval:n { ##1 } / \int_eval:n { ##2 } / \int_eval:n { ##3 } ~
+                    ( \exp_not:o { \l_bxjh_test_week_of_day_name_tl } ) ~
+                    \exp_not:o { \l_bxjh_test_holiday_name_tl }
+                  }
+              }
+
+            \bxjh_apply_next_day:Nnnn \__bxjh_test_holiday_list_rec:nff
+              { ##1 } { ##2 } { ##3 }
           }
       }
-  }
+    \cs_generate_variant:Nn \__bxjh_test_holiday_list_rec:nnn { nff }
 
-%% \bxjh_test_print_day:nnn { <year> } { <month> } { <day> }
-%% \bxjh_test_print_day:nxx { <year> } { <month> } { <day> }
-\cs_new:Npn \bxjh_test_print_holiday:nnn #1#2#3
-  {
-    \tl_set:Nf \l_bxjh_test_holiday_name_tl
-      { \bxjh_holiday_name:nnn { #1 } { #2 } { #3 } }
-    
-    \tl_if_empty:NF \l_bxjh_test_holiday_name_tl
-      {
-        \tl_set:Nf \l_bxjh_test_week_of_day_name_tl
-          { \bxjh_day_of_week_name:nnn { #1 } { #2 } { #3 } }
-
-        \TYPE
-          {
-            #1 / #2 / #3 ~ ( \l_bxjh_test_week_of_day_name_tl ) ~
-            \l_bxjh_test_holiday_name_tl
-          }
-      }
+    \__bxjh_test_holiday_list_rec:nnn { #1 } { 1 } { 1 }
   }
-\cs_generate_variant:Nn \bxjh_test_print_holiday:nnn { nxx }
 
 \ExplSyntaxOff
 % vim: ft=expl3:
