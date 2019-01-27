@@ -1,7 +1,7 @@
 %%
 %% This is file 'bxjaholiday.sty'.
 %%
-%% Copyright (c) 2018 Takuto ASAKURA (wtsnjp)
+%% Copyright 2018 Takuto ASAKURA (wtsnjp)
 %%   GitHub:   https://github.com/wtsnjp
 %%   Twitter:  @wtsnjp
 %%
@@ -30,6 +30,18 @@
     \bool_lazy_and:nnTF
       { \int_compare_p:n { #1 } }
       { \int_compare_p:n { #2 } }
+      { \prg_return_true: } { \prg_return_false: }
+  }
+
+%% \__bxjh_date_compare(_p):nn(TF)
+%%   { <year1> } { <month1> } { <day1> } <rel> { <year2> } { <month2> } { <day2> }
+%%   ( { <true code> } ) ( { <false code> } )
+\prg_new_conditional:Npnn \__bxjh_date_compare:nnnNnnn #1#2#3#4#5#6#7 { p, T, TF }
+  {
+    \int_compare:nNnTF
+      { ( #1 ) * 10000 + ( #2 ) * 100 + ( #3 ) }
+      #4 % relation
+      { ( #5 ) * 10000 + ( #6 ) * 100 + ( #7 ) }
       { \prg_return_true: } { \prg_return_false: }
   }
 
@@ -479,11 +491,16 @@
   {
     \tl_if_empty:nTF { #1 }
       {
-        \__bxjh_int_compare_and:nnT
-          { #2 * 10000 + #3 * 100 + #4 > 19730411 }
+        \bool_lazy_and:nnT
           {
-            \bxjh_day_of_week:nnn { #2 } { #3 } { #4 }
-            = \c_bxjh_monday_int
+            \__bxjh_date_compare_p:nnnNnnn
+              { #2 } { #3 } { #4 } > { 1973 } { 4 } { 11 }
+          }
+          {
+            \int_compare_p:n
+              {
+                \bxjh_day_of_week:nnn { #2 } { #3 } { #4 } = \c_bxjh_monday_int
+              }
           }
           {
             \bxjh_if_holiday:nnnT
@@ -497,7 +514,7 @@
 %% \__bxjh_holiday_name_naive:nnn { <year> } { <month> } { <day> }
 \cs_new:Npn \__bxjh_holiday_name_naive:nnn #1#2#3
   {
-    \int_compare:nNnTF { #1 * 10000 + #2 * 100 + #3 } < { 19480720 }
+    \__bxjh_date_compare:nnnNnnnTF { #1 } { #2 } { #3 } < { 1948 } { 7 } { 20 }
       {
         % empty because before the Act on National Holidays
       }
@@ -534,7 +551,8 @@
                   \__bxjh_int_compare_and:nnTF { #3 = 23 } { #1 > 2019 }
                     { \g_bxjh_tennou_tl } % the "next" era (2020-)
                     {
-                      \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19890224 }
+                      \__bxjh_date_compare:nnnNnnnT
+                        { #1 } { #2 } { #3 } = { 1989 } { 2 } { 24 }
                         { \g_bxjh_showa_taisou_tl }
                     }
                 }
@@ -559,10 +577,12 @@
                     }
                 }
                 {
-                  \int_compare:nNnTF { #1 * 10000 + #2 * 100 + #3 } = { 20190430 }
+                  \__bxjh_date_compare:nnnNnnnTF
+                    { #1 } { #2 } { #3 } = { 2019 } { 4 } { 30 }
                     { \g_bxjh_kokumin_tl } % the abdication of the Heisei Emperor
                     {
-                      \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19590410 }
+                      \__bxjh_date_compare:nnnNnnnT
+                        { #1 } { #2 } { #3 } = { 1959 } { 4 } { 10 }
                         { \g_bxjh_akihito_kekkon_tl }
                     }
                 }
@@ -607,10 +627,12 @@
                                 }
                             }
                             {
-                              \int_compare:nNnTF { #1 * 10000 + #2 * 100 + #3 } = { 20190501 }
+                              \__bxjh_date_compare:nnnNnnnTF
+                                { #1 } { #2 } { #3 } = { 2019 } { 5 } { 1 }
                                 { \g_bxjh_sokui_tl } % Naruhito
                                 {
-                                  \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 20190502 }
+                                  \__bxjh_date_compare:nnnNnnnT
+                                    { #1 } { #2 } { #3 } = { 2019 } { 5 } { 2 }
                                     { \g_bxjh_kokumin_tl }
                                 }
                             }
@@ -621,7 +643,7 @@
 
             { 6 } % June
             {
-              \int_compare:nNnT { #1 * 10000 + #2 * 100 + #3 } = { 19930609 }
+              \__bxjh_date_compare:nnnNnnnT { #1 } { #2 } { #3 } = { 1993 } { 6 } { 9 }
                 { \g_bxjh_naruhito_kekkon_tl }
             }
 
@@ -747,8 +769,8 @@
                             }
                             { \g_bxjh_taiiku_tl }
                             {
-                              \int_compare:nNnT
-                                { #1 * 10000 + #2 * 100 + #3 } = { 20191022 }
+                              \__bxjh_date_compare:nnnNnnnT
+                                { #1 } { #2 } { #3 } = { 2019 } { 10 } { 22 }
                                 { \g_bxjh_sokuirei_tl } % Naruhito
                             }
                         }
@@ -769,8 +791,8 @@
                   \int_compare:nNnTF { #3 } = { 23 }
                     { \g_bxjh_kinrou_tl }
                     {
-                      \int_compare:nNnT
-                        { #1 * 10000 + #2 * 100 + #3 } = { 19901112 }
+                      \__bxjh_date_compare:nnnNnnnT
+                        { #1 } { #2 } { #3 } = { 1990 } { 11 } { 12 }
                         { \g_bxjh_sokuirei_tl }
                     }
                 }
