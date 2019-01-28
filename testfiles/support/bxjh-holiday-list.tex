@@ -3,10 +3,6 @@
 % variable & consts
 \tl_new:N \l_bxjh_test_week_of_day_name_tl
 \tl_new:N \l_bxjh_test_holiday_name_tl
-\tl_new:N \l_bxjh_test_number_of_days_tl
-
-\int_new:N \l_bxjh_test_tmpa_int
-\int_new:N \l_bxjh_test_tmpb_int
 
 %% \HolidaysList { <year> }
 \NewDocumentCommand \HolidaysList { m }
@@ -31,12 +27,10 @@
                   }
               }
 
-            \bxjh_apply_next_day:Nnnn \__bxjh_test_holiday_list_rec:nff
+            \bxjh_apply_next_day:Nnnn \__bxjh_test_holiday_list_rec:nnn
               { ##1 } { ##2 } { ##3 }
           }
       }
-    \cs_generate_variant:Nn \__bxjh_test_holiday_list_rec:nnn { nff }
-
     \__bxjh_test_holiday_list_rec:nnn { #1 } { 1 } { 1 }
   }
 

@@ -1,39 +1,51 @@
 \ExplSyntaxOn
 
+%% \bxjh_test_print_result_with_date:Nnnnn \CS
+%%   { <year> } { <month> } { <day> } { <code> }
+\cs_new:Npn \bxjh_test_print_result_with_date:Nnnnn #1#2#3#4#5
+  {
+    \tl_set:Nf \l_tmpa_tl { #1 { #2 } { #3 } { #4 } #5 }
+
+    \TYPE
+      {
+        \int_eval:n { #2 } / \int_eval:n { #3 } / \int_eval:n { #4 } ~
+        [ \exp_not:o { \l_tmpa_tl } ]
+      }
+  }
+
 %% \TestHolidayName { <year> } { <month> } { <day> }
 \NewDocumentCommand \TestHolidayName { m m m }
   {
-    \tl_set:Nf \l_tmpa_tl { \jaholidayname { #1 } { #2 } { #3 } }
-    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+    \bxjh_test_print_result_with_date:Nnnnn
+      \jaholidayname { #1 } { #2 } { #3 } {}
   }
 
 %% \TestDayOfWeek { <year> } { <month> } { <day> }
 \NewDocumentCommand \TestDayOfWeek { m m m }
   {
-    \tl_set:Nf \l_tmpa_tl { \jadayofweek { #1 } { #2 } { #3 } }
-    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+    \bxjh_test_print_result_with_date:Nnnnn
+      \jadayofweek { #1 } { #2 } { #3 } {}
   }
 
 %% \TestIfHolidayF { <year> } { <month> } { <day> }
 \NewDocumentCommand \TestIfHolidayF { m m m }
   {
-    \tl_set:Nf \l_tmpa_tl { \IfJaHolidayF { #1 } { #2 } { #3 } { false } }
-    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+    \bxjh_test_print_result_with_date:Nnnnn
+      \IfJaHolidayF { #1 } { #2 } { #3 } { { false } }
   }
 
 %% \TestIfHolidayT { <year> } { <month> } { <day> }
 \NewDocumentCommand \TestIfHolidayT { m m m }
   {
-    \tl_set:Nf \l_tmpa_tl { \IfJaHolidayT { #1 } { #2 } { #3 } { true } }
-    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+    \bxjh_test_print_result_with_date:Nnnnn
+      \IfJaHolidayF { #1 } { #2 } { #3 } { { true } }
   }
 
 %% \TestIfHolidayTF { <year> } { <month> } { <day> }
 \NewDocumentCommand \TestIfHolidayTF { m m m }
   {
-    \tl_set:Nf \l_tmpa_tl
-      { \IfJaHolidayTF { #1 } { #2 } { #3 } { true } { false } }
-    \TYPE { #1/#2/#3 ~ [\l_tmpa_tl] }
+    \bxjh_test_print_result_with_date:Nnnnn
+      \IfJaHolidayTF { #1 } { #2 } { #3 } { { true } { false } }
   }
 
 \ExplSyntaxOff
