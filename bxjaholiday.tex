@@ -1,0 +1,281 @@
+%#!xelatex
+\RequirePackage{fontspec}
+\documentclass{l3doc}
+
+% packages
+\usepackage{bxjaholiday}
+\usepackage{caption}
+
+% fonts
+\newfontfamily{\fIpaex}{IPAexMincho}[Scale=0.95]
+\newcommand*{\Ja}[1]{{\fIpaex#1}}
+
+% logos
+\usepackage{bxtexlogo}
+\bxtexlogoimport{*}
+
+% syntax
+\newenvironment{code}{\quote\small}{\endquote}
+
+% cross-refs
+\usepackage{wtref}
+\newref{tab,sec}
+
+% macros
+\newcommand{\PkgName}{\pkg{bxjaholiday}}
+\newcommand{\Ie}{i.\,e.}
+\newcommand{\Eg}{e.\,g.}
+
+\ExplSyntaxOn
+\cs_set_eq:NN \_ \c_underscore_str
+\cs_new:Npn \__bxjh_doc_holiday_line:nn #1#2
+  {
+    % first column: holiday
+    #1 &
+    % second column: variable
+    \cs { g_bxjh_#2_tl } &
+    % third column: Name in Japanese
+    \Ja { \tl_use:c { g_bxjh_#2_tl } } \\
+  }
+\cs_new:Npn \__bxjh_doc_week_of_day:nn #1#2
+  {
+    % first column: holiday
+    #1 &
+    % second column: int variable
+    \cs { c_bxjh_ \tl_lower_case:n{ #1 } _int } &
+    % third column: int value
+    \int_use:c { c_bxjh_ \tl_lower_case:n{ #1 } _int } &
+    % fourth column: tl variable
+    \cs { g_bxjh_#2_tl } &
+    % fifth column: tl value
+    \Ja { \tl_use:c { g_bxjh_#2_tl } } \\
+  }
+\cs_new_eq:NN \HolidayLine \__bxjh_doc_holiday_line:nn
+\cs_new_eq:NN \WeekofdayLine \__bxjh_doc_week_of_day:nn
+\ExplSyntaxOff
+
+% metadata
+\GetFileInfo{\jobname.sty}
+\title{The {\PkgName} package}
+\author{Takuto ASAKURA (wtsnjp)}
+\date{\fileversion \quad [\filedate]}
+
+\begin{document}
+
+\maketitle
+
+\changes{v0.1.0}{2018/12/03}{The first public version}
+
+\begin{abstract}
+This package provides a command to convert dates to names of Japanese holidays
+(\emph{shukujitsu}; \Ja{祝日}). For internal use, I need to implement a
+function to judge the day of week (\emph{youbi}; \Ja{曜日}), so a command
+converting dates to \emph{youbi} in the same manner is also available as a free
+gift. The equivalent functions and further (lower-level) APIs are provided for
+expl3.
+%All {\LaTeXe} and expl3 interfaces are (first-)fully expandable, so
+%those could be used almost anywhere in your documents.
+\end{abstract}
+
+%\tableofcontents
+
+\begin{documentation}
+
+%\section{Introduction}
+
+\section{System requirements}
+
+As one of the BX series\footnote{BX series is a collection of {\LaTeX} packages
+mainly developed by Takayuki YATO (a.k.a.~ZR.) ``BX'' stands for
+``\underline{b}abel e\underline{x}tensions'' and packages in this series are
+normally support various {\TeX} engines not only Japanese-specific ones
+({\pTeX}, {\upTeX}, and so on.)} packages, {\PkgName} supports all {\TeX}
+engines which supported by expl3 (\Ie, the {\eTeX} extension is required.)
+Specifically, following {\TeX} systems are supported:
+%
+\begin{itemize}
+\item {\TeX} format: {\LaTeXe}.
+\item {\TeX} engine: {\pdfTeX}, {\XeTeX}, {\LuaTeX},\footnote{Note that if you
+want to print Japanese characters with {\TeX} engines which is not specifically
+designed for Japanese, you need to setup proper fonts and other things.}
+{\pTeX}, and {\upTeX}.
+\end{itemize}
+
+\section{Loading the package}
+
+The package should be loaded in the usual {\LaTeXe} way. No package option is
+available.
+%
+\begin{code}
+|\usepackage{bxjaholiday}|
+\end{code}
+
+\section{{\LaTeXe} interfaces}
+
+\begin{function}[EXP]{\jaholidayname}
+\begin{syntax}
+|\jaholidayname|\marg{year}\marg{month}\marg{day}
+\end{syntax}
+%
+This command is expanded to the name of Japanese holiday corresponding to the
+specified date, if it is a holiday. For a date which is not a holiday, it will
+be expanded to nothing (an empty token.) See Table~\tabref{holidays} for all
+possible results.
+
+For \meta{year}, \meta{month}, and \meta{day}, you can explicitly write
+numbers, or use counters, \Eg, |\year|, |\month|, and |\day|. To be exact,
+those could be any \meta{integer expression}.
+\end{function}
+
+\begin{function}[EXP]{\jadayofweek}
+\begin{syntax}
+|\jadayofweek|\marg{year}\marg{month}\marg{day}
+\end{syntax}
+%
+This command converts from a date to the name of week, \Ie, one of \Ja{月, 火,
+水, 木, 金, 土, 日}. You can specify the arguments in exactly the same way as
+|\jaholidayname|.
+\end{function}
+
+\begin{function}[EXP]{\IfJaHolidayTF,\IfJaHolidayT,\IfJaHolidayF}
+\begin{syntax}
+|\IfJaHolidayTF|\marg{year}\marg{month}\marg{day}\marg{true code}\marg{false code}
+|\IfJaHolidayT|\marg{year}\marg{month}\marg{day}\marg{true code}
+|\IfJaHolidayF|\marg{year}\marg{month}\marg{day}\marg{false code}
+\end{syntax}
+%
+The |\IfJaHoliday(TF)| tests are used to check if a date is a Japanese holiday
+or not. Note that substitute holidays (\Ja{振替休日}) are also judged as a
+holiday in this test.
+\end{function}
+
+\section{expl3 interfaces}
+
+All expl3 interfaces provided by {\PkgName} belong to the \texttt{bxjh} module.
+
+\subsection{Functions}
+
+\begin{function}[EXP]{\bxjh_holiday_name:nnn}
+\begin{syntax}
+|\bxjh_holiday_name:nnn| \marg{year} \marg{month} \marg{day}
+\end{syntax}
+%
+This is expl3 version of |\jaholidayname|. It converts dates into Japanese
+holiday names.
+\end{function}
+
+\begin{function}[EXP]{\bxjh_day_of_week_name:nnn,\bxjh_day_of_week:nnn}
+\begin{syntax}
+|\bxjh_day_of_week_name:nnn| \marg{year} \marg{month} \marg{day}
+|\bxjh_day_of_week:nnn| \marg{year} \marg{month} \marg{day}
+\end{syntax}
+%
+|\bxjh_day_of_week_name:nnn| is an expl3 version of |\jadayofweek|. It converts
+a date into day of week in Japanese. To use that information in expl3, \Eg, for
+branching, |\bxjh_day_of_week:nnn| is more suitable. It returns an internal
+\texttt{int} value, so you can compare those results with the constants provided
+by this package. See Section~\secref{variables}.
+\end{function}
+
+\begin{function}[EXP,TF]{\bxjh_if_holiday:nnn}
+\begin{syntax}
+|\bxjh_if_holiday:nnnTF| \marg{year} \marg{month} \marg{day} \marg{true code} \marg{false code}
+\end{syntax}
+%
+This test is expl3 version of |\IfJaHoliday(TF)|.
+\end{function}
+
+\begin{function}[EXP]{\bxjh_apply_prev_day:Nnnn,\bxjh_apply_next_day:Nnnn}
+\begin{syntax}
+|\bxjh_apply_prev_day:Nnnn| \meta{function} \marg{year} \marg{month} \marg{day}
+|\bxjh_apply_next_day:Nnnn| \meta{function} \marg{year} \marg{month} \marg{day}
+\end{syntax}
+%
+These functions get previous/next day of the specified date, and apply it to
+the specified \meta{function}. The \meta{function} must take three arguments in
+the order. For example,
+%
+\begin{code}
+|\bxjh_apply_next_day:Nnnn \bxjh_holiday_name:nnn { 2019 } { 12 } { 31 }|
+\end{code}
+%
+produces the result of:
+%
+\begin{code}
+|\bxjh_holiday_name:nnn { 2020 } { 1 } { 1 }|
+\end{code}
+\end{function}
+
+\subsection{Variables and constants}\seclabel{variables}
+
+\paragraph{Names of Japanese holidays}
+
+All of them are provided as global \texttt{tl} variables. See
+Table~\tabref{holidays}.
+%
+\begin{table}[p]
+\centering\small
+\caption{Japanese holidays}
+\tablabel{holidays}
+\begin{tabular}{lll}
+\hline
+Holiday & Variable & Name in Japanese \\ \hline
+\HolidayLine{New Year's Day}{ganjitsu}
+\HolidayLine{Coming of Age Day}{seijin}
+\HolidayLine{National Foundation Day}{kenkoku}
+\HolidayLine{The Emperor's Birthday}{tennou}
+\HolidayLine{Vernal Equinox Day}{shunbun}
+\HolidayLine{Showa Day}{showa}
+\HolidayLine{Greenery Day}{midori}
+\HolidayLine{Constitution Memorial Day}{kenpou}
+\HolidayLine{National Holiday}{kokumin}
+\HolidayLine{Children's Day}{kodomo}
+\HolidayLine{(substitute holiday)}{furikae}
+\HolidayLine{Marine Day}{umi}
+\HolidayLine{Mountain Day}{yama}
+\HolidayLine{Autumnal Equinox Day}{shunbun}
+\HolidayLine{Respect for the Aged Day}{keirou}
+\HolidayLine{Sports Day}{sports}
+\HolidayLine{Health and Sports Day}{taiiku}
+\HolidayLine{Culture Day}{bunka}
+\HolidayLine{Labor Thanksgiving Day}{kinrou}
+\HolidayLine{National Mourning of Showa}{showa\_taisou}
+\HolidayLine{National Wedding of Akihito}{akihito\_kekkon}
+\HolidayLine{National Wedding of Naruhito}{naruhito\_kekkon}
+\HolidayLine{Core Enthronement Ceremony}{sokuirei}
+\HolidayLine{Coronation Day}{sokui}
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Day of week}
+
+Internally, {\PkgName} uses integers to represent day of week, and corresponding
+\texttt{int} constants are defined. In addition to that, Japanese names of those
+are also provided as global \texttt{tl} variables. See
+Table~\tabref{dayofweek}.
+%
+\begin{table}[p]
+\centering\small
+\caption{Day of week}
+\tablabel{dayofweek}
+\begin{tabular}{l|lr|ll}
+\hline
+Day of week & Constant (\texttt{int}) & & Variable (\texttt{tl}) & \\ \hline
+\WeekofdayLine{Monday}{getsu}
+\WeekofdayLine{Tuesday}{ka}
+\WeekofdayLine{Wednesday}{sui}
+\WeekofdayLine{Thursday}{moku}
+\WeekofdayLine{Friday}{kin}
+\WeekofdayLine{Saturday}{do}
+\WeekofdayLine{Sunday}{nichi}
+\hline
+\end{tabular}
+\end{table}
+
+\end{documentation}
+
+%\PrintChanges
+
+\end{document}
+% vim: spell:

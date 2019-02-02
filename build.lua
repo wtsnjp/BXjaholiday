@@ -1,13 +1,22 @@
 #!/usr/bin/env texlua
 
--- module name
+-- module info
 module = "bxjaholiday"
+version = "0.2.0"
 
 -- check settings
 stdengine = "uptex"
 checkengines = {"luatex", "xetex", "ptex", "uptex"} -- no test for pdfTeX :(
 checkformat = "latex"
 checkopts = "-kanji=utf8 -interaction=nonstopmode"
+
+-- doc settings
+typesetexe = "xelatex"
+typesetfiles = {module .. ".tex"}
+
+-- ctan settings
+ctanzip = module .. "-" .. version
+sourcefiles = {module .. ".sty"}
 
 -- setup kpse
 kpse.set_program_name("luatex")
