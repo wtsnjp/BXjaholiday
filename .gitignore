@@ -160,3 +160,4 @@ TSWLatexianTemp*
 
 # l3build
 build/
+*.zip

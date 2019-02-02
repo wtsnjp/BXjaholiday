@@ -2,7 +2,7 @@
 
 -- module info
 module = "bxjaholiday"
-version = "0.2.0"
+version = "1.0.0"
 
 -- check settings
 stdengine = "uptex"
@@ -17,6 +17,7 @@ typesetfiles = {module .. ".tex"}
 -- ctan settings
 ctanzip = module .. "-" .. version
 sourcefiles = {module .. ".sty"}
+textfiles = {"README.md", "LICENSE"}
 
 -- setup kpse
 kpse.set_program_name("luatex")
