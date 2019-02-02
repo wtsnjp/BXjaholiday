@@ -265,13 +265,13 @@
 \__bxjh_add_jchar:Nnnn \g_bxjh_keirou_tl { {E3}{81}{AE} } { 306E } { 244E }
 \__bxjh_add_jchar:Nnnn \g_bxjh_keirou_tl { {E6}{97}{A5} } { 65E5 } { 467C }
 
-\tl_new:N \g_bxjh_sport_tl
-\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{82}{B9} } { 30B9 } { 2539 }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{83}{9D} } { 30DD } { 255D }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{83}{BC} } { 30FC } { 213C }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{83}{84} } { 30C4 } { 2544 }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E3}{81}{AE} } { 306E } { 244E }
-\__bxjh_add_jchar:Nnnn \g_bxjh_sport_tl { {E6}{97}{A5} } { 65E5 } { 467C }
+\tl_new:N \g_bxjh_sports_tl
+\__bxjh_add_jchar:Nnnn \g_bxjh_sports_tl { {E3}{82}{B9} } { 30B9 } { 2539 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sports_tl { {E3}{83}{9D} } { 30DD } { 255D }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sports_tl { {E3}{83}{BC} } { 30FC } { 213C }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sports_tl { {E3}{83}{84} } { 30C4 } { 2544 }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sports_tl { {E3}{81}{AE} } { 306E } { 244E }
+\__bxjh_add_jchar:Nnnn \g_bxjh_sports_tl { {E6}{97}{A5} } { 65E5 } { 467C }
 
 \tl_new:N \g_bxjh_taiiku_tl
 \__bxjh_add_jchar:Nnnn \g_bxjh_taiiku_tl { {E4}{BD}{93} } { 4F53 } { 424E }
@@ -370,13 +370,13 @@
   {
     \int_case:nn { \bxjh_day_of_week:nnn { #1 } { #2 } { #3 } }
       {
-        { \c_bxjh_monday_int } { \g_bxjh_getsu_tl }
-        { \c_bxjh_tuesday_int } { \g_bxjh_ka_tl }
+        { \c_bxjh_monday_int }    { \g_bxjh_getsu_tl }
+        { \c_bxjh_tuesday_int }   { \g_bxjh_ka_tl }
         { \c_bxjh_wednesday_int } { \g_bxjh_sui_tl }
-        { \c_bxjh_thursday_int } { \g_bxjh_moku_tl }
-        { \c_bxjh_friday_int } { \g_bxjh_kin_tl }
-        { \c_bxjh_saturday_int } { \g_bxjh_do_tl }
-        { \c_bxjh_sunday_int } { \g_bxjh_nichi_tl }
+        { \c_bxjh_thursday_int }  { \g_bxjh_moku_tl }
+        { \c_bxjh_friday_int }    { \g_bxjh_kin_tl }
+        { \c_bxjh_saturday_int }  { \g_bxjh_do_tl }
+        { \c_bxjh_sunday_int }    { \g_bxjh_nichi_tl }
       }
   }
 
@@ -445,6 +445,8 @@
     \exp_args:Nfff #1
       { \int_eval:n { #2 } } { \int_eval:n { #3 } } { \int_eval:n { #4 } }
   }
+
+% get \exp_args:Nfff
 \exp_args_generate:n { fff }
 
 %% \bxjh_apply_next_day:Nnnn \CS { <year> } { <month> } { <day> }
@@ -752,7 +754,7 @@
                         { \g_bxjh_umi_tl }
                         {
                           \int_compare:nNnT { #3 } = { 24 }
-                            { \g_bxjh_sport_tl }
+                            { \g_bxjh_sports_tl }
                         }
                     }
                     {
@@ -836,7 +838,7 @@
                       \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
                       = \c_bxjh_monday_int
                     }
-                    { \g_bxjh_sport_tl }
+                    { \g_bxjh_sports_tl }
                 }
                 {
                   \int_compare:nNnTF { #1 } = { 2020 }
