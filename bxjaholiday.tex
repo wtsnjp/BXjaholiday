@@ -37,9 +37,9 @@
     % third column: Name in Japanese
     \Ja { \tl_use:c { g_bxjh_#2_tl } } \\
   }
-\cs_new:Npn \__bxjh_doc_week_of_day:nn #1#2
+\cs_new:Npn \__bxjh_doc_week_of_day_line:nn #1#2
   {
-    % first column: holiday
+    % first column: week of day
     #1 &
     % second column: int variable
     \cs { c_bxjh_ \tl_lower_case:n{ #1 } _int } &
@@ -51,7 +51,7 @@
     \Ja { \tl_use:c { g_bxjh_#2_tl } } \\
   }
 \cs_new_eq:NN \HolidayLine \__bxjh_doc_holiday_line:nn
-\cs_new_eq:NN \WeekofdayLine \__bxjh_doc_week_of_day:nn
+\cs_new_eq:NN \WeekofdayLine \__bxjh_doc_week_of_day_line:nn
 \ExplSyntaxOff
 
 % metadata
