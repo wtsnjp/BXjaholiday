@@ -1,4 +1,10 @@
-%#!xelatex
+% +++
+% latex = "xelatex"
+% clean_files = [
+%   "%B.aux", "%B.glo", "%B.hd", "%B.idx", "%B.ilg",
+%   "%B.ind", "%B.log", "%B.out"
+% ]
+% +++
 \RequirePackage{fontspec}
 \documentclass{l3doc}
 
@@ -231,7 +237,7 @@ Holiday & Variable & Name in Japanese \\ \hline
 \HolidayLine{(substitute holiday)}{furikae}
 \HolidayLine{Marine Day}{umi}
 \HolidayLine{Mountain Day}{yama}
-\HolidayLine{Autumnal Equinox Day}{shunbun}
+\HolidayLine{Autumnal Equinox Day}{shubun}
 \HolidayLine{Respect for the Aged Day}{keirou}
 \HolidayLine{Sports Day}{sports}
 \HolidayLine{Health and Sports Day}{taiiku}
@@ -247,6 +253,8 @@ Holiday & Variable & Name in Japanese \\ \hline
 \end{table}
 
 \paragraph{Day of week}
+
+\enlargethispage{5mm}
 
 Internally, {\PkgName} uses integers to represent day of week, and corresponding
 \texttt{int} constants are defined. In addition to that, Japanese names of those
