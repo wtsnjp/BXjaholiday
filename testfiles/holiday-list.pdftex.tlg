@@ -1,0 +1,137 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: 2015
+============================================================
+2015/1/1 (\g_bxjh_moku_tl ) \g_bxjh_ganjitsu_tl 
+2015/1/12 (\g_bxjh_getsu_tl ) \g_bxjh_seijin_tl 
+2015/2/11 (\g_bxjh_sui_tl ) \g_bxjh_kenkoku_tl 
+2015/3/21 (\g_bxjh_do_tl ) \g_bxjh_shunbun_tl 
+2015/4/29 (\g_bxjh_sui_tl ) \g_bxjh_showa_tl 
+2015/5/3 (\g_bxjh_nichi_tl ) \g_bxjh_kenpou_tl 
+2015/5/4 (\g_bxjh_getsu_tl ) \g_bxjh_midori_tl 
+2015/5/5 (\g_bxjh_ka_tl ) \g_bxjh_kodomo_tl 
+2015/5/6 (\g_bxjh_sui_tl ) \g_bxjh_furikae_tl 
+2015/7/20 (\g_bxjh_getsu_tl ) \g_bxjh_umi_tl 
+2015/9/21 (\g_bxjh_getsu_tl ) \g_bxjh_keirou_tl 
+2015/9/22 (\g_bxjh_ka_tl ) \g_bxjh_kokumin_tl 
+2015/9/23 (\g_bxjh_sui_tl ) \g_bxjh_shubun_tl 
+2015/10/12 (\g_bxjh_getsu_tl ) \g_bxjh_taiiku_tl 
+2015/11/3 (\g_bxjh_ka_tl ) \g_bxjh_bunka_tl 
+2015/11/23 (\g_bxjh_getsu_tl ) \g_bxjh_kinrou_tl 
+2015/12/23 (\g_bxjh_sui_tl ) \g_bxjh_tennou_tl 
+============================================================
+============================================================
+TEST 2: 2016
+============================================================
+2016/1/1 (\g_bxjh_kin_tl ) \g_bxjh_ganjitsu_tl 
+2016/1/11 (\g_bxjh_getsu_tl ) \g_bxjh_seijin_tl 
+2016/2/11 (\g_bxjh_moku_tl ) \g_bxjh_kenkoku_tl 
+2016/3/20 (\g_bxjh_nichi_tl ) \g_bxjh_shunbun_tl 
+2016/3/21 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2016/4/29 (\g_bxjh_kin_tl ) \g_bxjh_showa_tl 
+2016/5/3 (\g_bxjh_ka_tl ) \g_bxjh_kenpou_tl 
+2016/5/4 (\g_bxjh_sui_tl ) \g_bxjh_midori_tl 
+2016/5/5 (\g_bxjh_moku_tl ) \g_bxjh_kodomo_tl 
+2016/7/18 (\g_bxjh_getsu_tl ) \g_bxjh_umi_tl 
+2016/8/11 (\g_bxjh_moku_tl ) \g_bxjh_yama_tl 
+2016/9/19 (\g_bxjh_getsu_tl ) \g_bxjh_keirou_tl 
+2016/9/22 (\g_bxjh_moku_tl ) \g_bxjh_shubun_tl 
+2016/10/10 (\g_bxjh_getsu_tl ) \g_bxjh_taiiku_tl 
+2016/11/3 (\g_bxjh_moku_tl ) \g_bxjh_bunka_tl 
+2016/11/23 (\g_bxjh_sui_tl ) \g_bxjh_kinrou_tl 
+2016/12/23 (\g_bxjh_kin_tl ) \g_bxjh_tennou_tl 
+============================================================
+============================================================
+TEST 3: 2017
+============================================================
+2017/1/1 (\g_bxjh_nichi_tl ) \g_bxjh_ganjitsu_tl 
+2017/1/2 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2017/1/9 (\g_bxjh_getsu_tl ) \g_bxjh_seijin_tl 
+2017/2/11 (\g_bxjh_do_tl ) \g_bxjh_kenkoku_tl 
+2017/3/20 (\g_bxjh_getsu_tl ) \g_bxjh_shunbun_tl 
+2017/4/29 (\g_bxjh_do_tl ) \g_bxjh_showa_tl 
+2017/5/3 (\g_bxjh_sui_tl ) \g_bxjh_kenpou_tl 
+2017/5/4 (\g_bxjh_moku_tl ) \g_bxjh_midori_tl 
+2017/5/5 (\g_bxjh_kin_tl ) \g_bxjh_kodomo_tl 
+2017/7/17 (\g_bxjh_getsu_tl ) \g_bxjh_umi_tl 
+2017/8/11 (\g_bxjh_kin_tl ) \g_bxjh_yama_tl 
+2017/9/18 (\g_bxjh_getsu_tl ) \g_bxjh_keirou_tl 
+2017/9/23 (\g_bxjh_do_tl ) \g_bxjh_shubun_tl 
+2017/10/9 (\g_bxjh_getsu_tl ) \g_bxjh_taiiku_tl 
+2017/11/3 (\g_bxjh_kin_tl ) \g_bxjh_bunka_tl 
+2017/11/23 (\g_bxjh_moku_tl ) \g_bxjh_kinrou_tl 
+2017/12/23 (\g_bxjh_do_tl ) \g_bxjh_tennou_tl 
+============================================================
+============================================================
+TEST 4: 2018
+============================================================
+2018/1/1 (\g_bxjh_getsu_tl ) \g_bxjh_ganjitsu_tl 
+2018/1/8 (\g_bxjh_getsu_tl ) \g_bxjh_seijin_tl 
+2018/2/11 (\g_bxjh_nichi_tl ) \g_bxjh_kenkoku_tl 
+2018/2/12 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2018/3/21 (\g_bxjh_sui_tl ) \g_bxjh_shunbun_tl 
+2018/4/29 (\g_bxjh_nichi_tl ) \g_bxjh_showa_tl 
+2018/4/30 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2018/5/3 (\g_bxjh_moku_tl ) \g_bxjh_kenpou_tl 
+2018/5/4 (\g_bxjh_kin_tl ) \g_bxjh_midori_tl 
+2018/5/5 (\g_bxjh_do_tl ) \g_bxjh_kodomo_tl 
+2018/7/16 (\g_bxjh_getsu_tl ) \g_bxjh_umi_tl 
+2018/8/11 (\g_bxjh_do_tl ) \g_bxjh_yama_tl 
+2018/9/17 (\g_bxjh_getsu_tl ) \g_bxjh_keirou_tl 
+2018/9/23 (\g_bxjh_nichi_tl ) \g_bxjh_shubun_tl 
+2018/9/24 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2018/10/8 (\g_bxjh_getsu_tl ) \g_bxjh_taiiku_tl 
+2018/11/3 (\g_bxjh_do_tl ) \g_bxjh_bunka_tl 
+2018/11/23 (\g_bxjh_kin_tl ) \g_bxjh_kinrou_tl 
+2018/12/23 (\g_bxjh_nichi_tl ) \g_bxjh_tennou_tl 
+2018/12/24 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+============================================================
+============================================================
+TEST 5: 2019
+============================================================
+2019/1/1 (\g_bxjh_ka_tl ) \g_bxjh_ganjitsu_tl 
+2019/1/14 (\g_bxjh_getsu_tl ) \g_bxjh_seijin_tl 
+2019/2/11 (\g_bxjh_getsu_tl ) \g_bxjh_kenkoku_tl 
+2019/3/21 (\g_bxjh_moku_tl ) \g_bxjh_shunbun_tl 
+2019/4/29 (\g_bxjh_getsu_tl ) \g_bxjh_showa_tl 
+2019/4/30 (\g_bxjh_ka_tl ) \g_bxjh_kokumin_tl 
+2019/5/1 (\g_bxjh_sui_tl ) \g_bxjh_sokui_tl 
+2019/5/2 (\g_bxjh_moku_tl ) \g_bxjh_kokumin_tl 
+2019/5/3 (\g_bxjh_kin_tl ) \g_bxjh_kenpou_tl 
+2019/5/4 (\g_bxjh_do_tl ) \g_bxjh_midori_tl 
+2019/5/5 (\g_bxjh_nichi_tl ) \g_bxjh_kodomo_tl 
+2019/5/6 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2019/7/15 (\g_bxjh_getsu_tl ) \g_bxjh_umi_tl 
+2019/8/11 (\g_bxjh_nichi_tl ) \g_bxjh_yama_tl 
+2019/8/12 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2019/9/16 (\g_bxjh_getsu_tl ) \g_bxjh_keirou_tl 
+2019/9/23 (\g_bxjh_getsu_tl ) \g_bxjh_shubun_tl 
+2019/10/14 (\g_bxjh_getsu_tl ) \g_bxjh_taiiku_tl 
+2019/10/22 (\g_bxjh_ka_tl ) \g_bxjh_sokuirei_tl 
+2019/11/3 (\g_bxjh_nichi_tl ) \g_bxjh_bunka_tl 
+2019/11/4 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2019/11/23 (\g_bxjh_do_tl ) \g_bxjh_kinrou_tl 
+============================================================
+============================================================
+TEST 6: 2020
+============================================================
+2020/1/1 (\g_bxjh_sui_tl ) \g_bxjh_ganjitsu_tl 
+2020/1/13 (\g_bxjh_getsu_tl ) \g_bxjh_seijin_tl 
+2020/2/11 (\g_bxjh_ka_tl ) \g_bxjh_kenkoku_tl 
+2020/2/23 (\g_bxjh_nichi_tl ) \g_bxjh_tennou_tl 
+2020/2/24 (\g_bxjh_getsu_tl ) \g_bxjh_furikae_tl 
+2020/3/20 (\g_bxjh_kin_tl ) \g_bxjh_shunbun_tl 
+2020/4/29 (\g_bxjh_sui_tl ) \g_bxjh_showa_tl 
+2020/5/3 (\g_bxjh_nichi_tl ) \g_bxjh_kenpou_tl 
+2020/5/4 (\g_bxjh_getsu_tl ) \g_bxjh_midori_tl 
+2020/5/5 (\g_bxjh_ka_tl ) \g_bxjh_kodomo_tl 
+2020/5/6 (\g_bxjh_sui_tl ) \g_bxjh_furikae_tl 
+2020/7/23 (\g_bxjh_moku_tl ) \g_bxjh_umi_tl 
+2020/7/24 (\g_bxjh_kin_tl ) \g_bxjh_sports_tl 
+2020/8/10 (\g_bxjh_getsu_tl ) \g_bxjh_yama_tl 
+2020/9/21 (\g_bxjh_getsu_tl ) \g_bxjh_keirou_tl 
+2020/9/22 (\g_bxjh_ka_tl ) \g_bxjh_shubun_tl 
+2020/11/3 (\g_bxjh_ka_tl ) \g_bxjh_bunka_tl 
+2020/11/23 (\g_bxjh_getsu_tl ) \g_bxjh_kinrou_tl 
+============================================================

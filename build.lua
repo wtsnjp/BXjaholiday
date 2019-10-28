@@ -5,10 +5,11 @@ module = "bxjaholiday"
 version = "1.0.0"
 
 -- check settings
-stdengine = "uptex"
-checkengines = {"luatex", "xetex", "ptex", "uptex"} -- no test for pdfTeX :(
+checkconfigs = {"build", "config-ptex"}
+
+stdengine = "xetex"  -- because it is faster than luatex
+checkengines = {"luatex", "xetex", "pdftex"}
 checkformat = "latex"
-checkopts = "-kanji=utf8 -interaction=nonstopmode"
 
 -- doc settings
 typesetexe = "xelatex"

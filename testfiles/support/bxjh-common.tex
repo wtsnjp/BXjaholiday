@@ -1,0 +1,45 @@
+\ExplSyntaxOn
+
+% patch if pdfTeX for better tlg outputs
+\sys_if_engine_pdftex:T
+  {
+    % youbi
+    \cs_set_eq:NN \g_bxjh_getsu_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_ka_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_sui_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_moku_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_kin_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_do_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_nichi_tl \scan_stop:
+
+    % common holidays
+    \cs_set_eq:NN \g_bxjh_ganjitsu_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_seijin_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_kenkoku_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_tennou_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_shunbun_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_showa_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_midori_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_kenpou_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_kokumin_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_kodomo_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_furikae_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_umi_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_yama_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_shubun_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_keirou_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_sports_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_taiiku_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_bunka_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_kinrou_tl \scan_stop:
+
+    % special holidays (mainly Emperor related)
+    \cs_set_eq:NN \g_bxjh_showa_taisou_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_akihito_kekkon_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_naruhito_kekkon_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_sokuirei_tl \scan_stop:
+    \cs_set_eq:NN \g_bxjh_sokui_tl \scan_stop:
+  }
+
+\ExplSyntaxOff
+% vim: ft=expl3:

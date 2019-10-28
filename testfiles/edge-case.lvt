@@ -7,6 +7,7 @@
 
 % support files
 \input{regression-test.tex}
+\input{bxjh-common.tex}
 \input{bxjh-edge-case.tex}
 
 \begin{document}

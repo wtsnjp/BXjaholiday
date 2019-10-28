@@ -5,6 +5,7 @@
 
 % support files
 \input{regression-test.tex}
+\input{bxjh-common.tex}
 \input{bxjh-interface.tex}
 
 \begin{document}
