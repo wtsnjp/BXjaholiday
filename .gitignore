@@ -158,6 +158,9 @@ pythontex-files-*/
 # Latexian
 TSWLatexianTemp*
 
+# others
+*.hd
+
 # l3build
 build/
 *.zip

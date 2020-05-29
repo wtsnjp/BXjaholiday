@@ -1,0 +1,264 @@
+% +++
+% latex = "uplatex"
+% clean_files = [
+%   "%B.aux", "%B.glo", "%B.hd", "%B.idx", "%B.ilg",
+%   "%B.ind", "%B.log", "%B.out"
+% ]
+% +++
+\documentclass[uplatex,dvipdfmx]{wtpl3doc}
+
+% packages
+\usepackage[verb]{bxghost}
+\usepackage{bxjaholiday}
+\usepackage{caption}
+
+% logos
+\usepackage{bxtexlogo}
+\bxtexlogoimport{*}
+
+% syntax
+\newenvironment{code}{\quote\small}{\endquote}
+
+% cross-refs
+\usepackage{wtref}
+\newref{tab,sec}
+
+% macros
+\newcommand{\PkgName}{\pkg{bxjaholiday}}
+\newcommand{\Ie}{i.\,e.}
+\newcommand{\Eg}{e.\,g.}
+
+\ExplSyntaxOn
+\cs_set_eq:NN \_ \c_underscore_str
+\cs_new:Npn \__bxjh_doc_holiday_line:nn #1#2
+  {
+    % first column: holiday
+    \tl_use:c { g_bxjh_#2_tl } &
+    % second column: variable
+    \cs { g_bxjh_#2_tl } \\
+  }
+\cs_new:Npn \__bxjh_doc_week_of_day_line:nn #1#2
+  {
+    % first column: week of day
+    \tl_use:c { g_bxjh_#2_tl } &
+    % second column: int variable
+    \cs { c_bxjh_ \tl_lower_case:n{ #1 } _int } &
+    % third column: int value
+    \int_use:c { c_bxjh_ \tl_lower_case:n{ #1 } _int } &
+    % fourth column: tl variable
+    \cs { g_bxjh_#2_tl } &
+    % fifth column: tl value
+    \tl_use:c { g_bxjh_#2_tl } \\
+  }
+\cs_new_eq:NN \HolidayLine \__bxjh_doc_holiday_line:nn
+\cs_new_eq:NN \WeekofdayLine \__bxjh_doc_week_of_day_line:nn
+\ExplSyntaxOff
+
+% metadata
+\GetFileInfo{bxjaholiday.sty}
+\title{{\PkgName}パッケージ}
+\author{朝倉卓人 (wtsnjp)}
+\date{\fileversion \quad [\filedate]}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+このパッケージは日付から日本の祝日名を得るためのコマンドと，その副産物である
+日付から曜日を取得するコマンドを提供する．expl3向けには，これらのコマンドと
+同等の機能を有する関数と，追加の低級関数も用意されている．
+\end{abstract}
+
+%\tableofcontents
+
+\begin{documentation}
+
+%\section{Introduction}
+
+\section{動作要件}
+
+BXプレフィックス\footnote{BXシリーズは主として八登祟之 (a.k.a.~ZR) 氏によって
+開発されている\LaTeX パッケージ群である．``BX'' は ``\underline{b}abel
+e\underline{x}tensions'' を意味し，BXシリーズに含まれるパッケージは通常，日本語
+に特化したもの（\pTeX 系列）に限らず多様な\TeX 処理系をサポートしている．}の示す
+通り，本パッケージは様々な\TeX 処理系のサポートを意図しており，expl3がサポート
+するすべての\TeX 処理系をサポートしている（つまり\eTeX 拡張は必要である）．
+具体的には以下のシステムがサポートされている：
+%
+\begin{itemize}
+\item \TeX フォーマット：\LaTeXe
+\item \TeX 処理系：{\pdfTeX}, {\XeTeX}, {\LuaTeX},\footnote{\pTeX 系列以外の
+処理系で和文文字を表示するには，別途フォントやその他の設定を行う必要がある．}
+{\pTeX}, {\upTeX}
+\end{itemize}
+
+\section{パッケージ読み込み}
+
+本パッケージの読み込みは\LaTeXe の標準的な方法で行う．オプションは存在しない．
+%
+\begin{code}
+|\usepackage{bxjaholiday}|
+\end{code}
+
+\section{{\LaTeXe}インターフェース}
+
+\begin{function}[EXP]{\jaholidayname}
+\begin{syntax}
+|\jaholidayname|\marg{year}\marg{month}\marg{day}
+\end{syntax}
+%
+与えられた日付が日本の祝日に該当する場合，その祝日の名前に展開される．日付が
+祝日でない場合は展開後には何も残らない（空のトークンに展開される）．
+表\tabref{holidays}に展開結果となり得る祝日名の一覧を示す．
+
+引数の\meta{year}, \meta{month}, \meta{day}には明示的な数値またはカウンタ
+（例えば|\year|, |\month|, |\day|）を与えることができる．正確には，任意の
+\meta{integer expression}が許される．
+\end{function}
+
+\begin{function}[EXP]{\jadayofweek}
+\begin{syntax}
+|\jadayofweek|\marg{year}\marg{month}\marg{day}
+\end{syntax}
+%
+日付を曜日名（月・火・水・木・金・土・日のいずれか）に変換する．
+引数の仕様は|\jaholidayname|と同一である．
+\end{function}
+
+\begin{function}[EXP]{\IfJaHolidayTF,\IfJaHolidayT,\IfJaHolidayF}
+\begin{syntax}
+|\IfJaHolidayTF|\marg{year}\marg{month}\marg{day}\marg{true code}\marg{false code}
+|\IfJaHolidayT|\marg{year}\marg{month}\marg{day}\marg{true code}
+|\IfJaHolidayF|\marg{year}\marg{month}\marg{day}\marg{false code}
+\end{syntax}
+%
+祝日か否かの判定を行う．なお，この条件分岐では振替休日も祝日として扱われる．
+\end{function}
+
+\section{expl3インターフェース}
+
+本パッケージが提供するすべてのインターフェースは\texttt{bxjh}モジュールに属する．
+
+\subsection{関数}
+
+\begin{function}[EXP]{\bxjh_holiday_name:nnn}
+\begin{syntax}
+|\bxjh_holiday_name:nnn| \marg{year} \marg{month} \marg{day}
+\end{syntax}
+%
+|\jaholidayname|のexpl3関数版である．日付を祝日名に変換する．
+\end{function}
+
+\begin{function}[EXP]{\bxjh_day_of_week_name:nnn,\bxjh_day_of_week:nnn}
+\begin{syntax}
+|\bxjh_day_of_week_name:nnn| \marg{year} \marg{month} \marg{day}
+|\bxjh_day_of_week:nnn| \marg{year} \marg{month} \marg{day}
+\end{syntax}
+%
+|\bxjh_day_of_week_name:nnn|は|\jadayofweek|のexpl3関数版で，日付を曜日名に変換
+する．曜日の情報をexpl3内で利用したい場合（例えば条件分岐したい場合）には
+|\bxjh_day_of_week:nnn|を用いるのがより適切である．この関数は内部的な
+整数値 (\texttt{int}) を返す．この値は本パッケージが提供する定数と比較することが
+できる（\secref{variables}節参照）．
+\end{function}
+
+\begin{function}[EXP,TF]{\bxjh_if_holiday:nnn}
+\begin{syntax}
+|\bxjh_if_holiday:nnnTF| \marg{year} \marg{month} \marg{day} \marg{true code} \marg{false code}
+\end{syntax}
+%
+|\IfJaHoliday(TF)|のexpl3関数版である．
+\end{function}
+
+\begin{function}[EXP]{\bxjh_apply_prev_day:Nnnn,\bxjh_apply_next_day:Nnnn}
+\begin{syntax}
+|\bxjh_apply_prev_day:Nnnn| \meta{function} \marg{year} \marg{month} \marg{day}
+|\bxjh_apply_next_day:Nnnn| \meta{function} \marg{year} \marg{month} \marg{day}
+\end{syntax}
+%
+これらの関数は与えられた日付の前日または翌日の日付に\meta{function}を適用する．
+\meta{function}は3つの引数を，年月日の順にとる関数である必要がある．例えば
+%
+\begin{code}
+|\bxjh_apply_next_day:Nnnn \bxjh_holiday_name:nnn { 2019 } { 12 } { 31 }|
+\end{code}
+%
+は以下と同じ結果となる：
+%
+\begin{code}
+|\bxjh_holiday_name:nnn { 2020 } { 1 } { 1 }|
+\end{code}
+\end{function}
+
+\subsection{変数と定数}\seclabel{variables}
+
+\paragraph{祝日名}
+
+すべてグローバルな\texttt{tl}型変数として提供される（表\tabref{holidays}）．
+%
+\begin{table}[b]
+\centering\small
+\caption{日本の祝日}
+\tablabel{holidays}
+\begin{tabular}{ll}
+\hline
+祝日名 & 変数 \\ \hline
+\HolidayLine{New Year's Day}{ganjitsu}
+\HolidayLine{Coming of Age Day}{seijin}
+\HolidayLine{National Foundation Day}{kenkoku}
+\HolidayLine{The Emperor's Birthday}{tennou}
+\HolidayLine{Vernal Equinox Day}{shunbun}
+\HolidayLine{Showa Day}{showa}
+\HolidayLine{Greenery Day}{midori}
+\HolidayLine{Constitution Memorial Day}{kenpou}
+\HolidayLine{National Holiday}{kokumin}
+\HolidayLine{Children's Day}{kodomo}
+\HolidayLine{(substitute holiday)}{furikae}
+\HolidayLine{Marine Day}{umi}
+\HolidayLine{Mountain Day}{yama}
+\HolidayLine{Autumnal Equinox Day}{shubun}
+\HolidayLine{Respect for the Aged Day}{keirou}
+\HolidayLine{Sports Day}{sports}
+\HolidayLine{Health and Sports Day}{taiiku}
+\HolidayLine{Culture Day}{bunka}
+\HolidayLine{Labor Thanksgiving Day}{kinrou}
+\HolidayLine{National Mourning of Showa}{showa\_taisou}
+\HolidayLine{National Wedding of Akihito}{akihito\_kekkon}
+\HolidayLine{National Wedding of Naruhito}{naruhito\_kekkon}
+\HolidayLine{Core Enthronement Ceremony}{sokuirei}
+\HolidayLine{Coronation Day}{sokui}
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{曜日名}
+
+本パッケージは曜日を表す際，内部的には整数値を用いている．これらの内部整数値に
+対応する\texttt{int}型の定数が定義されている．また各曜日名を格納するグローバル
+\texttt{tl}変数も提供されている（表\tabref{dayofweek}）．
+%
+\begin{table}[b]
+\centering\small
+\caption{曜日}
+\tablabel{dayofweek}
+\begin{tabular}{c|lr|ll}
+\hline
+曜日 & 定数 (\texttt{int}) & & 変数 (\texttt{tl}) & \\ \hline
+\WeekofdayLine{Monday}{getsu}
+\WeekofdayLine{Tuesday}{ka}
+\WeekofdayLine{Wednesday}{sui}
+\WeekofdayLine{Thursday}{moku}
+\WeekofdayLine{Friday}{kin}
+\WeekofdayLine{Saturday}{do}
+\WeekofdayLine{Sunday}{nichi}
+\hline
+\end{tabular}
+\end{table}
+
+\end{documentation}
+
+%\PrintChanges
+
+\end{document}
+% vim: spell:
