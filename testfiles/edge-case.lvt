@@ -135,7 +135,8 @@
   \TestHolidayName{2003}{7}{21}% 第3月曜に変更
   \TestHolidayName{2004}{7}{19}%
   \TestHolidayName{2020}{7}{23}% オリンピック特措法
-  \TestHolidayName{2021}{7}{19}%
+  \TestHolidayName{2021}{7}{22}% オリンピック特措法
+  \TestHolidayName{2022}{7}{18}%
 }
 
 \TEST{山の日}{%
@@ -143,7 +144,8 @@
   \TestHolidayName{2016}{8}{11}% 制定年・固定
   \TestHolidayName{2017}{8}{11}%
   \TestHolidayName{2020}{8}{10}% オリンピック特措法
-  \TestHolidayName{2021}{8}{11}%
+  \TestHolidayName{2021}{8}{8}% オリンピック特措法
+  \TestHolidayName{2022}{8}{11}%
 }
 
 \TEST{敬老の日}{%
@@ -205,7 +207,8 @@
   \TestHolidayName{2000}{10}{9}% 第2月曜日に移動
   \TestHolidayName{2019}{10}{14}%
   \TestHolidayName{2020}{7}{24}% オリンピック特措法・スポーツの日に改名
-  \TestHolidayName{2021}{10}{11}%
+  \TestHolidayName{2021}{7}{23}% オリンピック特措法
+  \TestHolidayName{2022}{10}{10}%
 }
 
 \TEST{文化の日}{%

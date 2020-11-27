@@ -736,7 +736,7 @@
 
             { 7 } % July
             {
-              \int_compare:nNnTF { #1 } > { 2020 }
+              \int_compare:nNnTF { #1 } > { 2021 }
                 {
                   \__bxjh_int_compare_and:nnT % third Monday
                     { \int_div_truncate:nn { #3 - 1 } { 7 } = 2 }
@@ -758,19 +758,31 @@
                         }
                     }
                     {
-                      \int_compare:nNnTF { #1 } > { 2002 }
+                      \int_compare:nNnTF { #1 } = { 2021 }
                         {
-                          \__bxjh_int_compare_and:nnT % third Monday
-                            { \int_div_truncate:nn { #3 - 1 } { 7 } = 2 }
-                            {
-                              \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
-                              = \c_bxjh_monday_int
-                            }
+                          % 2021 Tokyo Olympic year: special case
+                          \int_compare:nNnTF { #3 } = { 22 }
                             { \g_bxjh_umi_tl }
+                            {
+                              \int_compare:nNnT { #3 } = { 23 }
+                                { \g_bxjh_sports_tl }
+                            }
                         }
                         {
-                          \__bxjh_int_compare_and:nnT { #1 > 1995 } { #3 = 20 }
-                            { \g_bxjh_umi_tl }
+                          \int_compare:nNnTF { #1 } > { 2002 }
+                            {
+                              \__bxjh_int_compare_and:nnT % third Monday
+                                { \int_div_truncate:nn { #3 - 1 } { 7 } = 2 }
+                                {
+                                  \bxjh_day_of_week:nnn { #1 } { #2 } { #3 }
+                                  = \c_bxjh_monday_int
+                                }
+                                { \g_bxjh_umi_tl }
+                            }
+                            {
+                              \__bxjh_int_compare_and:nnT { #1 > 1995 } { #3 = 20 }
+                                { \g_bxjh_umi_tl }
+                            }
                         }
                     }
                 }
@@ -778,7 +790,7 @@
 
             { 8 } % August
             {
-              \int_compare:nNnTF { #1 } > { 2020 }
+              \int_compare:nNnTF { #1 } > { 2021 }
                 {
                   \int_compare:nNnT { #3 } = { 11 }
                     { \g_bxjh_yama_tl }
@@ -791,8 +803,16 @@
                         { \g_bxjh_yama_tl }
                     }
                     {
-                      \__bxjh_int_compare_and:nnT { #1 > 2015 } { #3 = 11 }
-                        { \g_bxjh_yama_tl }
+                      \int_compare:nNnTF { #1 } = { 2021 }
+                        {
+                          % 2021 Tokyo Olympic year: special case
+                          \int_compare:nNnT { #3 } = { 8 }
+                            { \g_bxjh_yama_tl }
+                        }
+                        {
+                          \__bxjh_int_compare_and:nnT { #1 > 2015 } { #3 = 11 }
+                            { \g_bxjh_yama_tl }
+                        }
                     }
                 }
             }

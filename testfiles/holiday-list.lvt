@@ -37,6 +37,10 @@
   \HolidaysList{2020}%
 }
 
+\TEST{2021}{%
+  \HolidaysList{2021}%
+}
+
 \END
 
 \end{document}
