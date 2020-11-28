@@ -1,4 +1,4 @@
-# BXjaholiday Package
+# The BXjaholiday Package
 
 LaTeX: Support for Japanese holidays
 
@@ -47,6 +47,9 @@ This package is distributed under [the MIT license](./LICENSE).
 
 ## Revision History
 
+* Version 1.1.0  ‹2020/11/28›
+  * Add Japanese documentation
+  * Support special cases in 2021
 * Version 1.0.0  ‹2019/02/03›
   * Add documentation
   * Rename `\g_bxjh_sport_tl` -> `\g_bxjh_sports_tl`

@@ -2,7 +2,7 @@
 
 -- module info
 module = "bxjaholiday"
-version = "1.0.0"
+version = "1.1.0"
 
 -- check settings
 checkconfigs = {"build", "config-ptex"}
