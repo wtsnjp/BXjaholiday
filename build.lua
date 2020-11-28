@@ -12,8 +12,17 @@ checkengines = {"luatex", "xetex", "pdftex"}
 checkformat = "latex"
 
 -- doc settings
-typesetexe = "xelatex"
-typesetfiles = {module .. ".tex"}
+typesetexe = "llmk"
+typesetopts = "-sv"
+typesetfiles = {module .. ".tex", module .. "-ja.tex"}
+
+-- custom typeset
+function typeset(file, dir, exe)
+  local dir = dir or "."
+  local cmd = typesetexe .. " " .. typesetopts
+  local errorlevel = runcmd(cmd .. " " .. file, dir, {"TEXINPUTS"})
+  return errorlevel
+end
 
 -- ctan settings
 ctanzip = module .. "-" .. version
