@@ -28,9 +28,3 @@ end
 ctanzip = module .. "-" .. version
 sourcefiles = {module .. ".sty"}
 textfiles = {"README.md", "LICENSE"}
-
--- setup kpse
-kpse.set_program_name("luatex")
-
--- load l3build
-dofile(kpse.lookup("l3build.lua"))

@@ -26,19 +26,19 @@ You can easily build this package with [l3build](https://github.com/latex3/l3bui
 * Installing the package to TEXMFHOME
 
 ```
-$ ./build.lua install --full
+$ l3build install --full
 ```
 
 * Typesetting documentation
 
 ```
-$ ./build.lua doc
+$ l3build doc
 ```
 
 * Running tests
 
 ```
-$ ./build.lua check
+$ l3build check
 ```
 
 ## License
